@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "metric_id": "alignment.mapped.fraction",
+  "scope": { "type": "sample", "id": "44444444-4444-4444-8444-444444444444" },
+  "value": 0.974,
+  "value_type": "number",
+  "unit": "fraction",
+  "numerator": 974,
+  "denominator": 1000,
+  "method": { "id": "seqqc.alignment-accounting", "version": "0.1.0" },
+  "filters": { "records": "primary" },
+  "source_artifact_ids": ["55555555-5555-4555-8555-555555555555"],
+  "applicability": "applicable",
+  "quality": "investigational",
+  "computed_at": "2026-08-26T12:10:00Z"
+}

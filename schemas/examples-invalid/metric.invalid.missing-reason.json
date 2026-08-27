@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "metric_id": "wgs.contamination.estimate",
+  "scope": { "type": "sample", "id": "44444444-4444-4444-8444-444444444444" },
+  "value_type": "number",
+  "unit": "fraction",
+  "method": { "id": "seqqc.contamination", "version": "0.1.0" },
+  "source_artifact_ids": [],
+  "applicability": "not_evaluated",
+  "quality": "conditional",
+  "computed_at": "2026-08-26T12:10:00Z"
+}

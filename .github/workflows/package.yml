@@ -1,0 +1,48 @@
+name: Package previews
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            artifact: windows-x86_64
+          - os: macos-15
+            artifact: macos-arm64
+          - os: ubuntu-24.04
+            artifact: linux-x86_64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install Linux native prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf perl
+      - name: Install Windows Perl prerequisite
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install strawberryperl --no-progress -y
+          'C:\Strawberry\perl\bin' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @seqqc/desktop tauri build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seqqc-studio-${{ matrix.artifact }}
+          path: target/release/bundle/**
+          if-no-files-found: error

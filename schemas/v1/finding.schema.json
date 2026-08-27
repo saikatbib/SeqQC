@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.seqqc.org/v1/finding.schema.json",
+  "title": "SeqQC finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "finding_id", "rule", "scope", "status", "severity",
+    "metric_ids", "threshold_source", "evidence_quality", "content_key",
+    "content_version", "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "finding_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "title": { "type": "string", "minLength": 1 },
+    "rule": { "$ref": "common.schema.json#/$defs/versioned_id" },
+    "scope": { "$ref": "common.schema.json#/$defs/scope" },
+    "status": {
+      "enum": [
+        "within_expected_range", "borderline", "needs_review", "critical_issue",
+        "not_evaluated", "not_applicable"
+      ]
+    },
+    "severity": { "type": "integer", "minimum": 0, "maximum": 4 },
+    "metric_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_.]*$" }
+    },
+    "observations": { "type": "array", "items": { "type": "object" } },
+    "expected": { "type": "object" },
+    "threshold_source": { "$ref": "common.schema.json#/$defs/versioned_id" },
+    "evidence_quality": { "enum": ["validated", "conditional", "investigational"] },
+    "content_key": { "type": "string", "minLength": 1 },
+    "content_version": { "$ref": "common.schema.json#/$defs/semver" },
+    "observation": { "type": "string", "minLength": 1 },
+    "next_action": { "type": "string", "minLength": 1 },
+    "generated_at": { "$ref": "common.schema.json#/$defs/timestamp" }
+  }
+}

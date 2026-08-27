@@ -1,0 +1,51 @@
+{
+  "productName": "SeqQC Studio",
+  "version": "0.1.0-1",
+  "identifier": "org.seqqc.studio",
+  "build": {
+    "beforeDevCommand": "pnpm build",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "SeqQC Studio",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 980,
+        "minHeight": 680,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'none'; img-src 'self' asset: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'",
+      "capabilities": ["desktop-base"],
+      "assetProtocol": {
+        "enable": false,
+        "scope": []
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "createUpdaterArtifacts": false,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "publisher": "SeqQC contributors",
+    "copyright": "Copyright 2026 Saikat Basak and SeqQC contributors",
+    "category": "Medical",
+    "shortDescription": "Local sequencing input QC for WGS, WES, and bulk RNA-seq",
+    "longDescription": "SeqQC Studio is a local-first engineering preview for discovering and structurally inspecting FASTQ, BAM, and CRAM inputs and producing investigational readiness reports.",
+    "licenseFile": "../../../LICENSE"
+  }
+}

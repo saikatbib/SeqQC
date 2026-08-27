@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.seqqc.org/v1/metric.schema.json",
+  "title": "SeqQC normalized metric",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "metric_id", "scope", "value_type", "unit", "method",
+    "source_artifact_ids", "applicability", "quality", "computed_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "metric_id": { "type": "string", "pattern": "^[a-z][a-z0-9_.]*$" },
+    "label": { "type": "string", "minLength": 1 },
+    "scope": { "$ref": "common.schema.json#/$defs/scope" },
+    "value": {},
+    "value_type": {
+      "enum": ["boolean", "integer", "number", "string", "enum", "vector", "series", "distribution", "table"]
+    },
+    "unit": { "type": "string", "minLength": 1 },
+    "numerator": { "type": "number" },
+    "denominator": { "type": "number", "minimum": 0 },
+    "method": { "$ref": "common.schema.json#/$defs/versioned_id" },
+    "filters": { "type": "object" },
+    "source_artifact_ids": {
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/uuid" }
+    },
+    "applicability": { "enum": ["applicable", "not_evaluated", "not_applicable"] },
+    "not_evaluated_reason": { "type": "string", "minLength": 1 },
+    "quality": { "enum": ["validated", "conditional", "investigational", "unsupported"] },
+    "status": { "enum": ["within_expected_range", "needs_review", "not_evaluated"] },
+    "explanation": { "type": "string", "minLength": 1 },
+    "computed_at": { "$ref": "common.schema.json#/$defs/timestamp" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "applicability": { "const": "not_evaluated" } }, "required": ["applicability"] },
+      "then": { "required": ["not_evaluated_reason"] }
+    },
+    {
+      "if": { "properties": { "applicability": { "const": "applicable" } }, "required": ["applicability"] },
+      "then": { "required": ["value"] }
+    }
+  ]
+}

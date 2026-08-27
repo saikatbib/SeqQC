@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Provisional SeqQC Studio mark</title>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102a35" />
+      <stop offset="1" stop-color="#06151d" />
+    </linearGradient>
+    <linearGradient id="strand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ff3df" />
+      <stop offset="1" stop-color="#18b9a3" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#background)" />
+  <path d="M157 105c130 48 68 106 198 154M157 407c130-48 68-106 198-154" fill="none" stroke="url(#strand)" stroke-width="30" stroke-linecap="round" />
+  <path d="M355 105c-130 48-68 106-198 154M355 407c-130-48-68-106-198-154" fill="none" stroke="url(#strand)" stroke-width="30" stroke-linecap="round" />
+  <g stroke="#d8fff8" stroke-width="17" stroke-linecap="round" opacity=".9">
+    <path d="M196 148h120" />
+    <path d="M171 211h170" />
+    <path d="M171 301h170" />
+    <path d="M196 364h120" />
+  </g>
+  <circle cx="256" cy="256" r="30" fill="#071a22" stroke="#7ff3df" stroke-width="13" />
+</svg>
+

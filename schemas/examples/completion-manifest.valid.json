@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "77777777-7777-4777-8777-777777777777",
+  "workflow": { "id": "seqqc.wes-qc", "version": "0.1.0" },
+  "workflow_graph_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "input_manifest_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "reference_manifest_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "outputs": [
+    {
+      "artifact_id": "99999999-9999-4999-8999-999999999999",
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "size_bytes": 1024
+    }
+  ],
+  "tool_manifest_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "completed_at": "2026-08-26T12:12:00Z"
+}

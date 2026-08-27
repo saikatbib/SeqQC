@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.seqqc.org/v1/report.schema.json",
+  "title": "SeqQC canonical report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "report_id", "source_run_id", "source_manifest_digest",
+    "audience", "findings", "metrics", "methods", "limitations",
+    "generated_at", "content_digest"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "report_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "source_run_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "source_manifest_digest": { "$ref": "common.schema.json#/$defs/digest" },
+    "audience": { "enum": ["guided", "standard", "expert", "machine"] },
+    "title": { "type": "string", "minLength": 1 },
+    "assay": { "enum": ["WGS", "WES", "Bulk RNA-seq"] },
+    "input_root": { "type": "string", "minLength": 1 },
+    "project_context": {
+      "enum": ["human_clinical", "human_research", "preclinical", "other", "unspecified"]
+    },
+    "findings": { "type": "array", "items": { "$ref": "finding.schema.json" } },
+    "metrics": { "type": "array", "items": { "$ref": "metric.schema.json" } },
+    "methods": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/versioned_id" } },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "deidentification_profile": { "$ref": "common.schema.json#/$defs/versioned_id" },
+    "generated_at": { "$ref": "common.schema.json#/$defs/timestamp" },
+    "content_digest": { "$ref": "common.schema.json#/$defs/digest" }
+  }
+}

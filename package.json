@@ -1,0 +1,22 @@
+{
+  "name": "seqqc",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "description": "Local-first sequencing quality control for WGS, WES, and bulk RNA-seq",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "check": "node tools/check-all.mjs",
+    "check:schemas": "node tools/check-schemas.mjs",
+    "check:metrics": "node tools/check-metric-assignments.mjs",
+    "check:dependencies": "node tools/check-dependency-candidates.mjs",
+    "check:desktop-policy": "node tools/check-desktop-policy.mjs",
+    "generate:sbom": "node tools/generate-sbom.mjs",
+    "test": "node --test",
+    "desktop:build": "pnpm --filter @seqqc/desktop build",
+    "desktop:tauri": "pnpm --filter @seqqc/desktop tauri"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

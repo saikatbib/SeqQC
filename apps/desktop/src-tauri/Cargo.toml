@@ -1,0 +1,30 @@
+[package]
+name = "seqqc-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Local-first engineering preview shell for SeqQC Studio"
+
+[lib]
+name = "seqqc_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+getrandom = "=0.3.4"
+serde = { version = "1", features = ["derive"] }
+seqqc-contracts = { path = "../../../crates/seqqc-contracts" }
+seqqc-discovery = { path = "../../../crates/seqqc-discovery" }
+seqqc-engine = { path = "../../../crates/seqqc-engine" }
+seqqc-formats = { path = "../../../crates/seqqc-formats" }
+seqqc-reporting = { path = "../../../crates/seqqc-reporting" }
+tauri = { version = "=2.11.5", features = [] }
+tauri-plugin-dialog = "=2.7.2"
+time = { version = "=0.3.55", features = ["formatting"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,1 @@
+{"desktop-base":{"identifier":"desktop-base","description":"Minimum application capability for the SeqQC Studio main window.","local":true,"windows":["main"],"permissions":["core:default","dialog:allow-open"]}}

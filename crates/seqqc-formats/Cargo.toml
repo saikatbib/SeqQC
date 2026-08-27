@@ -1,0 +1,15 @@
+[package]
+name = "seqqc-formats"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Validated streaming sequencing-format facade for SeqQC Studio"
+
+[dependencies]
+flate2 = { version = "=1.1.9", default-features = false, features = ["rust_backend"] }
+noodles = { version = "=0.115.0", features = ["bam", "core", "cram", "fasta", "fastq", "sam"] }
+
+[lints]
+workspace = true

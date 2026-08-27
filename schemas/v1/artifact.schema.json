@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.seqqc.org/v1/artifact.schema.json",
+  "title": "SeqQC input or derived artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "artifact_id", "kind", "location", "size_bytes",
+    "fingerprints", "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "artifact_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "kind": {
+      "enum": [
+        "fastq_r1", "fastq_r2", "fastq_single", "bam", "cram", "bai",
+        "crai", "reference_fasta", "reference_index", "target_bed",
+        "annotation_gtf", "annotation_gff", "metrics", "distribution",
+        "report_asset", "other"
+      ]
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scheme", "path", "classification"],
+      "properties": {
+        "scheme": { "const": "file" },
+        "path": { "type": "string", "minLength": 1 },
+        "classification": { "enum": ["non_sensitive", "sensitive", "restricted"] }
+      }
+    },
+    "size_bytes": { "type": "integer", "minimum": 0 },
+    "mtime_observed": { "$ref": "common.schema.json#/$defs/timestamp" },
+    "fingerprints": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "common.schema.json#/$defs/fingerprint" }
+    },
+    "sample_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "library_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "read": { "enum": [1, 2] },
+    "lane": { "type": "string", "maxLength": 40 },
+    "created_at": { "$ref": "common.schema.json#/$defs/timestamp" }
+  }
+}

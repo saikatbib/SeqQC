@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "description": "First-match planning assignments for the metric registry. This is not scientific validation approval.",
+  "rules": [
+    {
+      "id": "optional-wgs-contamination",
+      "match": { "exact": "wgs.contamination.estimate" },
+      "owner": "external_adapter",
+      "primary_method": "VerifyBamID2 candidate with locally supplied marker resource",
+      "validation_reference": "controlled mixture truth plus independent estimator",
+      "release_stage": "0.3-extended",
+      "platforms": ["linux"],
+      "availability": "conditional"
+    },
+    {
+      "id": "optional-wgs-fingerprint",
+      "match": { "exact": "wgs.fingerprint.concordance" },
+      "owner": "external_adapter",
+      "primary_method": "approved fingerprint adapter with local marker resource",
+      "validation_reference": "known matched and mismatched sample pairs",
+      "release_stage": "0.3-extended",
+      "platforms": ["linux"],
+      "availability": "conditional"
+    },
+    {
+      "id": "input-validation",
+      "match": { "prefix": "input." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC validation with noodles format facade where applicable",
+      "validation_reference": "format specifications and malformed fixture corpus",
+      "release_stage": "0.1",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "fastq-qc",
+      "match": { "prefix": "fastq." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC streaming FASTQ accumulator",
+      "validation_reference": "hand-derived fixtures plus fastp and independent scripts",
+      "release_stage": "0.2",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "alignment-accounting",
+      "match": { "prefix": "alignment." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC SAM/BAM/CRAM accumulator through format facade",
+      "validation_reference": "SAM specification plus SAMtools and Picard comparisons",
+      "release_stage": "0.2",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "coverage",
+      "match": { "prefix": "coverage." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC interval and depth event accumulator",
+      "validation_reference": "hand-derived tiny references plus mosdepth and SAMtools comparisons",
+      "release_stage": "0.2",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "wgs",
+      "match": { "prefix": "wgs." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC WGS aggregation over normalized alignment and coverage evidence",
+      "validation_reference": "GIAB-style public truth where licensed plus Picard and mosdepth comparisons",
+      "release_stage": "0.3",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "wes",
+      "match": { "prefix": "wes." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC target interval and coverage aggregation",
+      "validation_reference": "hand-derived target fixtures plus Picard and mosdepth comparisons",
+      "release_stage": "0.3",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "rnaseq",
+      "match": { "prefix": "rnaseq." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC annotation interval and RNA library accumulators",
+      "validation_reference": "hand-derived transcript fixtures plus RNA-SeQC and aligner summaries",
+      "release_stage": "0.4",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "cohort",
+      "match": { "prefix": "cohort." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC deterministic robust statistics and linear algebra",
+      "validation_reference": "independent R and Python reference calculations",
+      "release_stage": "0.2-0.4",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "core"
+    },
+    {
+      "id": "workflow-observability",
+      "match": { "prefix": "workflow." },
+      "owner": "native_rust",
+      "primary_method": "SeqQC executor and provider accounting adapters",
+      "validation_reference": "OS and scheduler fixture observations",
+      "release_stage": "0.1",
+      "platforms": ["windows", "macos", "linux"],
+      "availability": "conditional_by_provider"
+    }
+  ]
+}

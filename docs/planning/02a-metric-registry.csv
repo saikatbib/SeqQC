@@ -1,0 +1,129 @@
+metric_id,scope,applies_to,input,tier,value_type,unit,requires,notes
+input.file.readable,artifact,all,all,core,boolean,boolean,none,File is readable at preflight
+input.file.size_bytes,artifact,all,all,core,integer,byte,none,Observed file size
+input.file.stable,artifact,all,all,core,boolean,boolean,none,Size and modification evidence stable across check
+input.file.fingerprint,artifact,all,all,core,string,sha256,none,Full or declared fast fingerprint
+input.file.duplicate_content,artifact,all,all,core,boolean,boolean,fingerprint,Same content appears more than once
+input.fastq.structure_valid,artifact,all,fastq,core,boolean,boolean,none,Record and sequence quality structure
+input.fastq.compression_valid,artifact,all,fastq_gz,core,boolean,boolean,none,Compression stream integrity
+input.pair.read_name_concordance,sample,all,paired_fastq,core,number,fraction,pairing,Sampled or full read name agreement
+input.pair.read_count_delta,sample,all,paired_fastq,core,integer,read,pairing,Absolute R1 R2 count difference
+input.sam.header_valid,artifact,wgs|wes|bulk_rnaseq,bam|cram,core,boolean,boolean,none,SAM header validation
+input.sam.sort_order,artifact,wgs|wes|bulk_rnaseq,bam|cram,core,enum,category,none,Declared and observed order
+input.sam.index_usable,artifact,wgs|wes|bulk_rnaseq,bam|cram,core,boolean,boolean,index,Index opens and matches data
+input.sam.read_group_valid,artifact,wgs|wes|bulk_rnaseq,bam|cram,core,boolean,boolean,policy,Read group completeness and consistency
+input.reference.contig_compatibility,run,wgs|wes|bulk_rnaseq,bam|cram,core,enum,category,reference,Alignment and reference dictionary relationship
+input.annotation.contig_compatibility,run,wes|bulk_rnaseq,bam|cram,core,enum,category,bed_or_gtf,Annotation and reference dictionary relationship
+fastq.reads.total,sample,all,fastq,core,integer,read,none,Total read records
+fastq.bases.total,sample,all,fastq,core,integer,base,none,Total called bases
+fastq.read_length.minimum,sample,all,fastq,core,integer,base,none,Minimum read length
+fastq.read_length.maximum,sample,all,fastq,core,integer,base,none,Maximum read length
+fastq.read_length.mean,sample,all,fastq,core,number,base,none,Mean read length
+fastq.read_length.median,sample,all,fastq,core,number,base,none,Median read length
+fastq.read_length.distribution,sample,all,fastq,core,distribution,read_by_length,none,Read length histogram
+fastq.empty_read.fraction,sample,all,fastq,core,number,fraction,none,Empty sequence records over total reads
+fastq.quality.encoding,sample,all,fastq,core,enum,category,none,Quality encoding evidence
+fastq.quality.per_cycle,sample,all,fastq,core,distribution,phred_by_cycle,none,Quality distribution at each cycle
+fastq.quality.per_read_mean,sample,all,fastq,core,distribution,phred_by_read,none,Read mean quality distribution
+fastq.quality.q20_base_fraction,sample,all,fastq,core,number,fraction,none,Bases with Phred at least 20
+fastq.quality.q30_base_fraction,sample,all,fastq,core,number,fraction,none,Bases with Phred at least 30
+fastq.quality.low_tail_fraction,sample,all,fastq,extended,number,fraction,method,Reads with declared low quality tail
+fastq.base.a_fraction,sample,all,fastq,core,number,fraction,none,A bases over called bases
+fastq.base.c_fraction,sample,all,fastq,core,number,fraction,none,C bases over called bases
+fastq.base.g_fraction,sample,all,fastq,core,number,fraction,none,G bases over called bases
+fastq.base.t_fraction,sample,all,fastq,core,number,fraction,none,T bases over called bases
+fastq.base.n_fraction,sample,all,fastq,core,number,fraction,none,N bases over all bases
+fastq.base.per_cycle,sample,all,fastq,core,distribution,fraction_by_cycle,none,Base composition per cycle
+fastq.gc.fraction,sample,all,fastq,core,number,fraction,none,GC bases over called bases
+fastq.gc.per_read_distribution,sample,all,fastq,core,distribution,read_by_gc_fraction,none,Per read GC histogram
+fastq.poly_g.read_fraction,sample,all,fastq,extended,number,fraction,method,Reads with declared poly G tail
+fastq.poly_x.read_fraction,sample,all,fastq,extended,number,fraction,method,Reads with declared poly X tail
+fastq.adapter.read_fraction,sample,all,fastq,core,number,fraction,adapter_database,Reads with adapter evidence
+fastq.adapter.base_fraction,sample,all,fastq,core,number,fraction,adapter_database,Adapter affected bases
+fastq.overrepresented_sequences,sample,all,fastq,extended,table,sequence_count_fraction,none,Enriched sequences with redaction policy
+fastq.kmer.enrichment,sample,all,fastq,extended,table,kmer_enrichment,method,Enriched k-mers and positions
+fastq.sequence_redundancy.fraction,sample,all,fastq,core,number,fraction,method,Unaligned sequence redundancy estimate
+fastq.unique_sequence.fraction,sample,all,fastq,core,number,fraction,method,Unique sequence fraction estimate
+fastq.lane.read_fraction,lane,all,fastq,core,number,fraction,lane_mapping,Lane contribution to sample
+fastq.mate.quality_delta,sample,all,paired_fastq,extended,number,phred,pairing,Mate mean quality difference
+alignment.records.total,sample,wgs|wes|bulk_rnaseq,bam|cram,core,integer,record,none,All alignment records
+alignment.reads.primary,sample,wgs|wes|bulk_rnaseq,bam|cram,core,integer,read,none,Primary read records
+alignment.reads.secondary_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,none,Secondary records over declared denominator
+alignment.reads.supplementary_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,none,Supplementary records over declared denominator
+alignment.mapped.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,none,Mapped primary reads over primary reads
+alignment.unmapped.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,none,Unmapped primary reads over primary reads
+alignment.proper_pair.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,paired_reads,Properly paired reads over paired denominator
+alignment.singleton.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,paired_reads,Mapped read with unmapped mate fraction
+alignment.discordant_pair.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,paired_reads,Discordant pair fraction by method
+alignment.qc_fail.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,none,Vendor QC fail records
+alignment.duplicate.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,duplicate_method,Duplicate reads over declared denominator
+alignment.optical_duplicate.fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,duplicate_method,Optical duplicate estimate
+alignment.mapping_quality.distribution,sample,wgs|wes|bulk_rnaseq,bam|cram,core,distribution,read_by_mapq,none,Primary alignment MAPQ distribution
+alignment.mapping_quality.low_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,mapq_threshold,Reads below selected MAPQ threshold
+alignment.mismatch.base_rate,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,required_tags,Mismatches over aligned bases
+alignment.insertion.base_rate,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,cigar,Inserted bases over aligned denominator
+alignment.deletion.base_rate,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,cigar,Deleted bases over aligned denominator
+alignment.soft_clipped.base_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,cigar,Soft clipped bases over sequenced bases
+alignment.hard_clipped.read_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,number,fraction,cigar,Reads with hard clipping
+alignment.insert_size.median,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,base,paired_reads,Median inferred insert size
+alignment.insert_size.distribution,sample,wgs|wes|bulk_rnaseq,bam|cram,core,distribution,pair_by_base,paired_reads,Insert size histogram
+alignment.orientation.distribution,sample,wgs|wes|bulk_rnaseq,bam|cram,extended,distribution,pair_by_orientation,paired_reads,Pair orientation counts
+alignment.contig.read_fraction,contig,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,reference_roles,Primary mapped reads per contig
+alignment.mitochondrial_read_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,reference_roles,Mitochondrial mapped read fraction
+coverage.depth.mean,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,x,territory,Mean depth over declared territory
+coverage.depth.median,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,x,territory,Median depth over declared territory
+coverage.depth.distribution,sample,wgs|wes|bulk_rnaseq,bam|cram,core,distribution,bases_by_depth,territory,Depth histogram over declared territory
+coverage.breadth.at_threshold,sample,wgs|wes|bulk_rnaseq,bam|cram,core,series,fraction_by_x,territory,Breadth at each configured depth threshold
+coverage.zero_fraction,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,fraction,territory,Zero coverage territory fraction
+coverage.uniformity.robust_cv,sample,wgs|wes|bulk_rnaseq,bam|cram,core,number,ratio,territory,Versioned robust dispersion measure
+coverage.gc.normalized,bin,wgs|wes|bulk_rnaseq,bam|cram,core,series,normalized_depth_by_gc,reference,Normalized depth by GC bin
+wgs.autosomal_depth.mean,sample,wgs,bam|cram,core,number,x,reference_roles,Mean autosomal depth
+wgs.autosomal_breadth.at_threshold,sample,wgs,bam|cram,core,series,fraction_by_x,reference_roles,Autosomal breadth thresholds
+wgs.callable_genome.fraction,sample,wgs,bam|cram,extended,number,fraction,callable_definition,Callable genome under named definition
+wgs.chromosome_coverage.profile,sample,wgs,bam|cram,core,series,normalized_depth_by_contig,reference_roles,Chromosome normalized coverage
+wgs.usable_read.fraction,sample,wgs,bam|cram,core,number,fraction,usable_definition,Reads passing declared WGS filters
+wgs.library_size.estimated,sample,wgs,bam|cram,extended,number,fragment,duplicate_method,Estimated unique library fragments
+wgs.contamination.estimate,sample,wgs,bam|cram,extended,number,fraction,local_marker_resource,Contamination estimate with resource and method
+wgs.fingerprint.concordance,sample,wgs,bam|cram,extended,number,score,local_fingerprint_resource,Sample concordance evidence
+wes.target_territory.size,sample,wes,bam|cram,core,integer,base,target_bed,Normalized target territory size
+wes.on_target.read_fraction,sample,wes,bam|cram,core,number,fraction,target_bed,Reads overlapping target territory
+wes.near_target.read_fraction,sample,wes,bam|cram,extended,number,fraction,target_bed,Reads in declared target padding
+wes.off_target.read_fraction,sample,wes,bam|cram,core,number,fraction,target_bed,Reads outside target and padding
+wes.fold_enrichment,sample,wes,bam|cram,core,number,ratio,target_bed,Declared enrichment formula
+wes.target_depth.mean,sample,wes,bam|cram,core,number,x,target_bed,Mean target depth
+wes.target_depth.median,sample,wes,bam|cram,core,number,x,target_bed,Median target depth
+wes.target_breadth.at_threshold,sample,wes,bam|cram,core,series,fraction_by_x,target_bed,Target breadth thresholds
+wes.fold80_penalty,sample,wes,bam|cram,core,number,ratio,target_bed,Fold 80 base penalty
+wes.targets.low_coverage,interval,wes,bam|cram,core,table,interval_depth,target_bed,Targets below configured thresholds
+wes.genes.low_coverage,gene,wes,bam|cram,extended,table,gene_coverage,target_gene_map,Gene aggregation with versioned mapping
+rnaseq.mapping.unique_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,aligner_tags,Uniquely mapped read fraction
+rnaseq.mapping.multimapped_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,aligner_tags,Multi-mapped read fraction
+rnaseq.junction.read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,cigar,Reads supporting splice junctions
+rnaseq.junction.saturation,sample,bulk_rnaseq,bam|cram,extended,series,junctions_by_reads,gtf,Junction discovery saturation
+rnaseq.chimeric_read_fraction,sample,bulk_rnaseq,bam|cram,extended,number,fraction,method,Chimeric alignment evidence
+rnaseq.strandedness.inferred,sample,bulk_rnaseq,bam|cram,core,enum,category,gtf,Inferred library orientation
+rnaseq.strandedness.confidence,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Support for inferred orientation
+rnaseq.exonic_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Exonic reads over declared denominator
+rnaseq.intronic_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Intronic reads over declared denominator
+rnaseq.intergenic_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Intergenic reads over declared denominator
+rnaseq.ambiguous_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Reads ambiguous across feature classes
+rnaseq.rrna_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,rrna_annotation,rRNA overlapping reads
+rnaseq.mitochondrial_read_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,reference_roles,Mitochondrial RNA read fraction
+rnaseq.gene_body_coverage,sample,bulk_rnaseq,bam|cram,core,series,normalized_depth_by_percentile,gtf,Gene body coverage profile
+rnaseq.three_prime_bias,sample,bulk_rnaseq,bam|cram,core,number,ratio,gtf,Versioned 3 prime bias method
+rnaseq.transcript_coverage_cv,sample,bulk_rnaseq,bam|cram,extended,number,ratio,gtf,Transcript coverage variation summary
+rnaseq.genes_detected,sample,bulk_rnaseq,bam|cram,core,integer,gene,gtf_and_count_rule,Genes above detection rule
+rnaseq.expression.top_gene_fraction,sample,bulk_rnaseq,bam|cram,core,number,fraction,gtf,Reads or abundance in top genes
+rnaseq.expression.biotype_fraction,biotype,bulk_rnaseq,bam|cram,extended,series,fraction_by_biotype,gtf_biotypes,Expression contribution by biotype
+rnaseq.library_complexity.estimated,sample,bulk_rnaseq,bam|cram,extended,number,fragment,method,Estimated unique library fragments
+cohort.metric.robust_z,sample,all,normalized_metrics,core,number,mad_score,compatible_cohort,Robust deviation for a named metric
+cohort.metric.percentile,sample,all,normalized_metrics,extended,number,percentile,compatible_cohort,Empirical cohort percentile
+cohort.metric.missing_fraction,cohort,all,normalized_metrics,core,number,fraction,compatible_cohort,Missing or unevaluated sample fraction
+cohort.rnaseq.sample_correlation,sample_pair,bulk_rnaseq,expression_matrix,core,number,correlation,compatible_cohort,Declared transformed expression correlation
+cohort.rnaseq.pca_coordinates,sample,bulk_rnaseq,expression_matrix,core,vector,component_score,compatible_cohort,PCA coordinates with transformation metadata
+cohort.replicate.concordance,sample_pair,bulk_rnaseq,expression_matrix,extended,number,correlation,replicate_metadata,Replicate concordance evidence
+workflow.wall_time,task,all,workflow,core,number,second,none,Elapsed task time
+workflow.peak_memory,task,all,workflow,extended,number,byte,provider_accounting,Observed peak memory where available
+workflow.cpu_time,task,all,workflow,extended,number,cpu_second,provider_accounting,Observed CPU time where available
+workflow.io.bytes_read,task,all,workflow,extended,integer,byte,provider_accounting,Observed or tool reported bytes read
+workflow.io.bytes_written,task,all,workflow,extended,integer,byte,provider_accounting,Observed or tool reported bytes written

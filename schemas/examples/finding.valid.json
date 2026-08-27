@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "finding_id": "66666666-6666-4666-8666-666666666666",
+  "rule": { "id": "seqqc.wes.target-breadth", "version": "0.1.0" },
+  "scope": { "type": "sample", "id": "44444444-4444-4444-8444-444444444444" },
+  "status": "not_evaluated",
+  "severity": 0,
+  "metric_ids": ["wes.target_breadth.at_threshold"],
+  "threshold_source": { "id": "seqqc.wes.synthetic", "version": "1.0.0" },
+  "evidence_quality": "investigational",
+  "content_key": "finding.wes.target_breadth.not_evaluated",
+  "content_version": "1.0.0",
+  "generated_at": "2026-08-26T12:11:00Z"
+}
