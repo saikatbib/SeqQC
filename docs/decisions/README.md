@@ -15,6 +15,7 @@ they are not edited to hide a changed decision.
 | [0007](0007-native-first-qc-engine.md) | Accepted | Portable native QC with independent references |
 | [0008](0008-canonical-report-model.md) | Accepted | All exports derive from one report model |
 | [0009](0009-strict-offline-desktop-shell.md) | Accepted | Production shell may not depend on an uncontained system webview |
+| [0010](0010-native-egui-desktop-shell.md) | Accepted for Milestone 1 spike | Evaluate a native-only egui presentation shell |
 
 ## Status definitions
 

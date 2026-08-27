@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "apps/native-desktop",
   "apps/desktop/src-tauri",
   "crates/seqqc-contracts",
   "crates/seqqc-discovery",

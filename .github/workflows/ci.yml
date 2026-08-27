@@ -48,7 +48,7 @@ jobs:
           cache: pnpm
       - name: Install Linux native prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf perl
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libdbus-1-dev pkg-config patchelf perl
       - name: Install Windows Perl prerequisite
         if: runner.os == 'Windows'
         shell: pwsh
@@ -59,5 +59,15 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm desktop:build
       - run: cargo test --workspace --locked
+      - name: Verify native shell dependency boundary
+        shell: pwsh
+        run: |
+          $tree = cargo tree --package seqqc-native-desktop --locked --edges normal --prefix none --format '{p}'
+          $forbidden = @('tauri ', 'webview2-com ', 'reqwest ', 'hyper ', 'ureq ', 'curl ', 'webbrowser ', 'tokio-tungstenite ')
+          foreach ($package in $forbidden) {
+            if ($tree | Select-String -SimpleMatch $package) {
+              throw "Forbidden native-shell dependency detected: $package"
+            }
+          }
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings

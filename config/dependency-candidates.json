@@ -1,8 +1,31 @@
 {
   "schema_version": "1.0.0",
-  "review_date": "2026-08-26",
+  "review_date": "2026-08-27",
   "policy": "Candidate records are not redistribution approval. Exact versions and artifacts require lockfiles, checksums, SBOM, license texts, and validation evidence.",
   "candidates": [
+    {
+      "id": "eframe-egui",
+      "role": "native_webview_free_desktop_shell_spike",
+      "decision": "accepted_and_exact_pinned_for_milestone_1_spike",
+      "exact_version": "0.36.1",
+      "enabled_features": ["accesskit", "default_fonts", "glow", "wayland", "x11"],
+      "disabled_capabilities": ["default_features", "links", "inspection", "persistence", "web"],
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/emilk/egui"
+    },
+    {
+      "id": "rfd",
+      "role": "native_folder_and_file_picker_for_native_shell",
+      "decision": "accepted_and_exact_pinned_for_milestone_1_spike",
+      "exact_version": "0.17.2",
+      "enabled_features": ["xdg-portal"],
+      "license_signal": "MIT",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/PolyMeilex/rfd"
+    },
     {
       "id": "tauri",
       "role": "desktop_shell",

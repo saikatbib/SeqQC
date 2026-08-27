@@ -32,7 +32,7 @@ jobs:
           cache: pnpm
       - name: Install Linux native prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf perl
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libdbus-1-dev pkg-config patchelf perl
       - name: Install Windows Perl prerequisite
         if: runner.os == 'Windows'
         shell: pwsh
@@ -40,6 +40,14 @@ jobs:
           choco install strawberryperl --no-progress -y
           'C:\Strawberry\perl\bin' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - run: pnpm install --frozen-lockfile
+      - run: cargo build --release --locked --package seqqc-native-desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seqqc-native-shell-${{ matrix.artifact }}
+          path: |
+            target/release/seqqc-native-desktop
+            target/release/seqqc-native-desktop.exe
+          if-no-files-found: error
       - run: pnpm --filter @seqqc/desktop tauri build
       - uses: actions/upload-artifact@v4
         with:

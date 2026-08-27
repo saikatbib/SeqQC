@@ -1,0 +1,17 @@
+[package]
+name = "seqqc-native-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Webview-free native desktop shell for SeqQC Studio"
+
+[dependencies]
+eframe = { version = "=0.36.1", default-features = false, features = ["accesskit", "default_fonts", "glow", "wayland", "x11"] }
+rfd = { version = "=0.17.2", default-features = false, features = ["xdg-portal"] }
+seqqc-discovery = { path = "../../crates/seqqc-discovery" }
+seqqc-engine = { path = "../../crates/seqqc-engine" }
+
+[lints]
+workspace = true

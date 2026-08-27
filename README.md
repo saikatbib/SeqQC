@@ -13,6 +13,12 @@ and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 > connections during packaging tests, so this preview does **not** satisfy the
 > strict-offline release gate and must be run on an OS-enforced isolated host.
 
+> **Milestone 1 native-shell spike:** `apps/native-desktop` is the new
+> webview-free Rust application path. It already provides local folder
+> selection, background input discovery, searchable sample-map review, and
+> clinical night/light/high-contrast themes. Strict-offline status remains a
+> release gate until live Windows, macOS, and Linux network observation passes.
+
 ## What works now
 
 - Packaged Windows desktop preview; the source architecture targets macOS and
@@ -63,6 +69,25 @@ an output folder for the five report formats. SeqQC application code has no
 upload path. Until the WebView2 shell is replaced or independently contained,
 use an operating-system network-deny policy for any sensitive-data evaluation.
 
+## Try the native-shell spike
+
+The native shell does not use Node.js, React, Tauri, WebView2, WKWebView, or
+WebKitGTK at runtime. Install the Rust and native graphics prerequisites for
+your operating system, then run:
+
+```text
+cargo run --locked --package seqqc-native-desktop
+```
+
+On the provisioned Windows development host:
+
+```powershell
+& .\tools\invoke-rust.ps1 run --locked --package seqqc-native-desktop
+```
+
+This slice discovers and reviews input structure only. It does not yet run
+validated biological QC or persist an encrypted project.
+
 ## Build an installer
 
 ```text
@@ -94,7 +119,8 @@ validation.
 
 | Path | Purpose |
 | --- | --- |
-| `apps/desktop` | Tauri + React native desktop application |
+| `apps/native-desktop` | Webview-free native Rust production-shell spike |
+| `apps/desktop` | Retained Tauri + React Milestone 0 UX/reference preview |
 | `crates/seqqc-*` | Contracts, discovery, formats, workflow, execution, reporting, and security boundaries |
 | `schemas/v1` | Offline JSON Schema 2020-12 contracts |
 | `config` | Metric implementation and dependency review registries |
