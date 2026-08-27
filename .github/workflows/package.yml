@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   package:
+    name: Package ${{ matrix.artifact }}
     strategy:
       fail-fast: false
       matrix:
@@ -23,13 +24,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.19.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
       - name: Install Linux native prerequisites
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libdbus-1-dev pkg-config patchelf perl
@@ -39,18 +33,79 @@ jobs:
         run: |
           choco install strawberryperl --no-progress -y
           'C:\Strawberry\perl\bin' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - run: pnpm install --frozen-lockfile
-      - run: cargo build --release --locked --package seqqc-native-desktop
-      - uses: actions/upload-artifact@v4
+      - name: Build native SeqQC Studio shell
+        run: cargo build --release --locked --package seqqc-native-desktop
+      - name: Assemble Windows portable package
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $packageName = "SeqQC-Studio-$env:GITHUB_REF_NAME-windows-x86_64"
+          $packageDir = Join-Path 'dist' $packageName
+          New-Item -ItemType Directory -Path $packageDir -Force | Out-Null
+          Copy-Item 'target\release\seqqc-native-desktop.exe' (Join-Path $packageDir 'SeqQC Studio.exe')
+          Copy-Item 'LICENSE' $packageDir
+          Copy-Item 'packaging\PORTABLE_PACKAGE_README.txt' $packageDir
+          Compress-Archive -Path $packageDir -DestinationPath "dist\$packageName.zip" -CompressionLevel Optimal
+      - name: Assemble macOS application package
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          package_name="SeqQC-Studio-${GITHUB_REF_NAME}-macos-arm64"
+          package_dir="dist/${package_name}"
+          app_dir="${package_dir}/SeqQC Studio.app"
+          mkdir -p "${app_dir}/Contents/MacOS" "${app_dir}/Contents/Resources"
+          cp target/release/seqqc-native-desktop "${app_dir}/Contents/MacOS/SeqQC Studio"
+          chmod +x "${app_dir}/Contents/MacOS/SeqQC Studio"
+          cp packaging/macos/Info.plist "${app_dir}/Contents/Info.plist"
+          cp apps/desktop/src-tauri/icons/icon.icns "${app_dir}/Contents/Resources/SeqQCStudio.icns"
+          cp LICENSE packaging/PORTABLE_PACKAGE_README.txt "${package_dir}/"
+          ditto -c -k --sequesterRsrc --keepParent "${package_dir}" "dist/${package_name}.zip"
+      - name: Assemble Linux portable package
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          package_name="SeqQC-Studio-${GITHUB_REF_NAME}-linux-x86_64"
+          package_dir="dist/${package_name}"
+          mkdir -p "${package_dir}"
+          cp target/release/seqqc-native-desktop "${package_dir}/seqqc-studio"
+          chmod +x "${package_dir}/seqqc-studio"
+          cp LICENSE packaging/PORTABLE_PACKAGE_README.txt "${package_dir}/"
+          tar -C dist -czf "dist/${package_name}.tar.gz" "${package_name}"
+      - name: Upload portable package
+        uses: actions/upload-artifact@v4
         with:
-          name: seqqc-native-shell-${{ matrix.artifact }}
+          name: seqqc-release-${{ matrix.artifact }}
           path: |
-            target/release/seqqc-native-desktop
-            target/release/seqqc-native-desktop.exe
+            dist/*.zip
+            dist/*.tar.gz
           if-no-files-found: error
-      - run: pnpm --filter @seqqc/desktop tauri build
-      - uses: actions/upload-artifact@v4
+          retention-days: 14
+
+  publish-release:
+    name: Publish GitHub Release
+    if: github.ref_type == 'tag'
+    needs: package
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: seqqc-studio-${{ matrix.artifact }}
-          path: target/release/bundle/**
-          if-no-files-found: error
+          pattern: seqqc-release-*
+          path: release-assets
+          merge-multiple: true
+      - name: Generate SHA-256 checksums
+        shell: bash
+        run: cd release-assets && sha256sum * > SHA256SUMS.txt
+      - name: Publish prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release create "$GITHUB_REF_NAME" release-assets/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "SeqQC Studio ${GITHUB_REF_NAME} (Engineering Preview)" \
+            --notes-file packaging/RELEASE_NOTES.md \
+            --prerelease \
+            --verify-tag

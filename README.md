@@ -5,27 +5,36 @@ desktop application for understandable sequencing input quality control. It is
 designed for wet-lab researchers, students, sequencing cores, bioinformaticians,
 and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 
-> **Milestone 0 engineering preview:** the application currently discovers,
-> groups, and structurally inspects FASTQ, BAM, and CRAM files and exports an
-> operational readiness report. It does **not** yet calculate validated
-> assay-specific biological QC metrics and must not be used for diagnosis or
-> patient care. The Windows WebView2 runtime made background outbound
-> connections during packaging tests, so this preview does **not** satisfy the
-> strict-offline release gate and must be run on an OS-enforced isolated host.
+> **Native-shell engineering preview:** the public package uses the new
+> webview-free Rust application path in `apps/native-desktop`. It provides local
+> folder selection, background FASTQ/BAM/CRAM discovery, searchable sample-map
+> review, and clinical night/light/high-contrast themes. It does **not** yet
+> calculate validated assay-specific biological QC metrics and must not be used
+> for diagnosis or patient care. The dependency boundary and Windows runtime
+> observation are clean; live macOS and Linux network observation remains a
+> strict-offline release gate.
 
-> **Milestone 1 native-shell spike:** `apps/native-desktop` is the new
-> webview-free Rust application path. It already provides local folder
-> selection, background input discovery, searchable sample-map review, and
-> clinical night/light/high-contrast themes. Strict-offline status remains a
-> release gate until live Windows, macOS, and Linux network observation passes.
+## Download the engineering preview
+
+Download the packages and `SHA256SUMS.txt` from the
+[SeqQC Studio v0.1.0-alpha.1 release](https://github.com/saikatbib/SeqQC/releases/tag/v0.1.0-alpha.1):
+
+- Windows x86-64: extract the ZIP and open `SeqQC Studio.exe`.
+- macOS Apple silicon: extract the ZIP and move `SeqQC Studio.app` to
+  Applications. The preview is unsigned, so use Control-click, then **Open**, on
+  first launch.
+- Linux x86-64: extract the tarball and run `./seqqc-studio` from a graphical
+  desktop session.
+
+Verify the downloaded archive against `SHA256SUMS.txt` before opening it. Intel
+macOS and platform-signed packages are not included in this first prerelease.
 
 ## What works now
 
-- Packaged Windows desktop preview; the source architecture targets macOS and
-  Linux, but native packages on those systems still require CI evidence.
-- No application telemetry, updater, remote assets, HTTP plugin, shell
-  permission, local browser server, or runtime download path. The current
-  Windows system-webview shell is a documented strict-offline blocker.
+- Webview-free native portable packages built on Windows, macOS, and Linux by
+  the tagged-release workflow.
+- No application telemetry, updater, remote assets, HTTP client, local browser
+  server, or runtime download path in the native shell.
 - Recursive FASTQ/FQ/GZ, BAM, and CRAM discovery in nested folders and network
   mappings exposed by the operating system.
 - Conservative paired-end and lane proposals that disclose missing or
@@ -42,7 +51,7 @@ and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 - Offline job-package contracts for Generic scripts, Slurm, PBS Pro, LSF, and
   SGE.
 
-## Try the source preview
+## Run the retained Milestone 0 reference UI
 
 Install Node.js 22 or newer, pnpm 11.19.0, Rust 1.98.0, and the
 [Tauri 2 prerequisites](https://v2.tauri.app/start/prerequisites/) for your
@@ -63,11 +72,10 @@ On the provisioned Windows development host, replace `cargo ...` with:
 & .\tools\invoke-rust.ps1 test --workspace --locked
 ```
 
-Inside the application, select a local folder, review the proposed samples,
-inspect individual inputs, optionally choose a local CRAM reference, and select
-an output folder for the five report formats. SeqQC application code has no
-upload path. Until the WebView2 shell is replaced or independently contained,
-use an operating-system network-deny policy for any sensitive-data evaluation.
+This older Tauri/WebView implementation remains as a UX and reporting reference
+and is not the application distributed on the GitHub Releases page. Use an
+operating-system network-deny policy for any sensitive-data evaluation of that
+retained reference UI.
 
 ## Try the native-shell spike
 
@@ -88,19 +96,18 @@ On the provisioned Windows development host:
 This slice discovers and reviews input structure only. It does not yet run
 validated biological QC or persist an encrypted project.
 
-## Build an installer
+## Build the native release binary
 
 ```text
-pnpm --filter @seqqc/desktop tauri build
+cargo build --release --locked --package seqqc-native-desktop
 ```
 
-Packages are written below `target/release/bundle`. GitHub Actions definitions
-under `.github/workflows` test all three operating systems and create preview
-artifacts. See `packaging/release-checklist.md` before distributing binaries;
-local preview installers are unsigned unless you configure platform signing.
-The installers are evaluation artifacts and must not be published as
-strict-offline or regulated-workflow releases while the runtime-network gate is
-open.
+Tagged builds use `.github/workflows/package.yml` to create Windows, macOS, and
+Linux portable archives, calculate SHA-256 checksums, and publish them on the
+GitHub Releases page. See `packaging/release-checklist.md` before distributing
+binaries. Preview packages are unsigned unless platform signing is configured,
+and they must not be represented as validated clinical or regulated-workflow
+software.
 
 ## Safety and scientific scope
 
