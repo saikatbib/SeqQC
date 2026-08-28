@@ -1,6 +1,6 @@
 {
   "productName": "SeqQC Studio",
-  "version": "0.1.0-1",
+  "version": "0.1.0-2",
   "identifier": "org.seqqc.studio",
   "build": {
     "beforeDevCommand": "pnpm build",

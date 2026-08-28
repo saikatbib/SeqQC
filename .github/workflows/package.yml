@@ -46,6 +46,49 @@ jobs:
           Copy-Item 'LICENSE' $packageDir
           Copy-Item 'packaging\PORTABLE_PACKAGE_README.txt' $packageDir
           Compress-Archive -Path $packageDir -DestinationPath "dist\$packageName.zip" -CompressionLevel Optimal
+      - name: Assemble Windows installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $metadata = cargo metadata --locked --no-deps --format-version 1 | ConvertFrom-Json
+          $displayVersion = ($metadata.packages | Where-Object name -eq 'seqqc-native-desktop' | Select-Object -First 1).version
+          if ($env:GITHUB_REF_TYPE -eq 'tag' -and ($env:GITHUB_REF_NAME -replace '^v', '') -ne $displayVersion) {
+            throw "Release tag '$env:GITHUB_REF_NAME' does not match Cargo version '$displayVersion'."
+          }
+          $match = [regex]::Match($displayVersion, '^(\d+)\.(\d+)\.(\d+)(?:-[A-Za-z]+\.(\d+))?$')
+          if (-not $match.Success) {
+            throw "Release tag '$env:GITHUB_REF_NAME' cannot be converted to Windows version metadata."
+          }
+          $prerelease = if ($match.Groups[4].Success) { $match.Groups[4].Value } else { '0' }
+          $numericVersion = "$($match.Groups[1].Value).$($match.Groups[2].Value).$($match.Groups[3].Value).$prerelease"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path -LiteralPath $iscc)) {
+            throw "Inno Setup compiler was not found at $iscc"
+          }
+          & $iscc "/DMyAppVersion=$displayVersion" "/DMyNumericVersion=$numericVersion" "/DMyOutputBaseFilename=SeqQC-Studio-Setup-$env:GITHUB_REF_NAME-windows-x86_64" 'packaging\windows\SeqQCStudio.iss'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Smoke-test Windows install and uninstall registration
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $installer = Get-Item 'dist\SeqQC-Studio-Setup-*-windows-x86_64.exe'
+          $installDir = Join-Path $env:RUNNER_TEMP 'SeqQC Studio installer smoke test'
+          $install = Start-Process -FilePath $installer.FullName -ArgumentList @('/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/DIR=`"$installDir`"") -Wait -PassThru
+          if ($install.ExitCode -ne 0) { throw "Installer exited with code $($install.ExitCode)." }
+          if (-not (Test-Path -LiteralPath (Join-Path $installDir 'SeqQC Studio.exe'))) { throw 'Installed executable was not found.' }
+          $uninstallKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\{F4F594CA-0486-4475-A998-E5A06A523F49}_is1'
+          $uninstallEntry = Get-ItemProperty -LiteralPath $uninstallKey -ErrorAction SilentlyContinue
+          if (-not $uninstallEntry) { throw 'SeqQC Studio was not registered in Installed Apps.' }
+          if ($uninstallEntry.DisplayName -ne 'SeqQC Studio') { throw 'Installed Apps display name is incorrect.' }
+          $shortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\SeqQC Studio.lnk'
+          if (-not (Test-Path -LiteralPath $shortcut)) { throw 'Start-menu shortcut was not created.' }
+          $uninstaller = Join-Path $installDir 'unins000.exe'
+          if (-not (Test-Path -LiteralPath $uninstaller)) { throw 'SeqQC Studio uninstaller was not created.' }
+          $uninstall = Start-Process -FilePath $uninstaller -ArgumentList @('/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART') -Wait -PassThru
+          if ($uninstall.ExitCode -ne 0) { throw "Uninstaller exited with code $($uninstall.ExitCode)." }
+          if (Test-Path -LiteralPath (Join-Path $installDir 'SeqQC Studio.exe')) { throw 'Uninstall did not remove the application executable.' }
+          if (Test-Path -LiteralPath $uninstallKey) { throw 'Uninstall did not remove the Installed Apps registration.' }
+          if (Test-Path -LiteralPath $shortcut) { throw 'Uninstall did not remove the Start-menu shortcut.' }
       - name: Assemble macOS application package
         if: runner.os == 'macOS'
         shell: bash
@@ -71,11 +114,12 @@ jobs:
           chmod +x "${package_dir}/seqqc-studio"
           cp LICENSE packaging/PORTABLE_PACKAGE_README.txt "${package_dir}/"
           tar -C dist -czf "dist/${package_name}.tar.gz" "${package_name}"
-      - name: Upload portable package
+      - name: Upload release package
         uses: actions/upload-artifact@v4
         with:
           name: seqqc-release-${{ matrix.artifact }}
           path: |
+            dist/*.exe
             dist/*.zip
             dist/*.tar.gz
           if-no-files-found: error

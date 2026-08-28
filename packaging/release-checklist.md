@@ -4,7 +4,7 @@
 
 - [ ] Version agrees in root `package.json`, desktop `package.json`, Cargo
   workspace, changelog, and citation metadata. Tauri package metadata maps the
-  textual `0.1.0-alpha.1` label to MSI-safe numeric prerelease `0.1.0-1`.
+  textual prerelease label to its Windows-safe numeric package version.
 - [ ] Repository policy, Node tests, Rust workspace tests, rustfmt, strict
   Clippy, frontend production build, and three-OS package workflow pass.
 - [ ] Generated CycloneDX SBOM is reviewed and attached.

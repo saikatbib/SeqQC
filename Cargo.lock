@@ -4915,11 +4915,11 @@ dependencies = [
 
 [[package]]
 name = "seqqc-contracts"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 
 [[package]]
 name = "seqqc-desktop"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "getrandom 0.3.4",
  "seqqc-contracts",
@@ -4936,15 +4936,15 @@ dependencies = [
 
 [[package]]
 name = "seqqc-discovery"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 
 [[package]]
 name = "seqqc-engine"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 
 [[package]]
 name = "seqqc-execution"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "serde",
  "serde_json",
@@ -4952,7 +4952,7 @@ dependencies = [
 
 [[package]]
 name = "seqqc-formats"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "flate2",
  "noodles",
@@ -4960,7 +4960,7 @@ dependencies = [
 
 [[package]]
 name = "seqqc-native-desktop"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "eframe",
  "rfd 0.17.2",
@@ -4970,7 +4970,7 @@ dependencies = [
 
 [[package]]
 name = "seqqc-reporting"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "serde",
  "serde_json",
@@ -4979,7 +4979,7 @@ dependencies = [
 
 [[package]]
 name = "seqqc-security"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "getrandom 0.3.4",
  "hex",

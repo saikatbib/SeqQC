@@ -7,7 +7,6 @@ authors:
     given-names: "Saikat"
 repository-code: "https://github.com/saikatbib/SeqQC"
 license: Apache-2.0
-version: 0.1.0-alpha.1
+version: 0.1.0-alpha.2
 date-released: 2026-08-26
 abstract: "Offline-native sequencing input quality-control and reporting software for WGS, WES, and bulk RNA-seq."
-

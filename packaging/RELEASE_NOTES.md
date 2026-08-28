@@ -10,10 +10,12 @@ This prerelease introduces the webview-free native SeqQC Studio desktop shell fo
 - Linux-only alignment capability messaging
 - No network client or webview dependency in the native executable tree
 - SHA-256 checksums for every downloadable package
+- Per-user Windows installer with Start-menu, Installed Apps, optional desktop shortcut, and clean uninstall integration
 
 ### Choose a package
 
-- **Windows x86-64:** `windows-x86_64.zip`
+- **Windows x86-64 installer (recommended):** `Setup-...-windows-x86_64.exe`
+- **Windows x86-64 portable:** `windows-x86_64.zip`
 - **macOS Apple silicon:** `macos-arm64.zip`
 - **Linux x86-64:** `linux-x86_64.tar.gz`
 

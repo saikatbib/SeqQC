@@ -3,6 +3,23 @@
 All notable changes are documented here. The project follows Semantic
 Versioning while pre-release interfaces may still change.
 
+## 0.1.0-alpha.2 - 2026-08-27
+
+### Added
+
+- Webview-free native desktop release packages for Windows x86-64, macOS Apple
+  silicon, and Linux x86-64.
+- Per-user Windows installer with Start-menu registration, Installed Apps
+  metadata, an optional desktop shortcut, and an uninstaller.
+- Tagged GitHub Release automation with SHA-256 checksums and installer
+  install/uninstall smoke testing.
+
+### Safety boundary
+
+The packages remain unsigned engineering previews and are not validated for
+clinical or diagnostic use. The native shell discovers local sequencing inputs;
+the complete assay-specific QC pipeline is not yet connected.
+
 ## 0.1.0-alpha.1 - 2026-08-26
 
 ### Added

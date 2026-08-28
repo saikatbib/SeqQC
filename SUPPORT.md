@@ -1,6 +1,6 @@
 # Support
 
-SeqQC Studio `0.1.0-alpha.1` is an investigational Milestone 0 preview. It can
+SeqQC Studio `0.1.0-alpha.2` is an investigational native-shell preview. It can
 discover and structurally inspect local FASTQ, BAM, and CRAM files and export
 an operational readiness report. It does not yet calculate validated
 assay-specific biological QC metrics.
@@ -11,4 +11,3 @@ and relevant logs. Never upload human sequencing files, patient data, project
 keys, encrypted project archives, or identifiable metadata.
 
 Security concerns must follow `SECURITY.md` rather than a public issue.
-

@@ -16,10 +16,12 @@ and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 
 ## Download the engineering preview
 
-Download the packages and `SHA256SUMS.txt` from the
-[SeqQC Studio v0.1.0-alpha.1 release](https://github.com/saikatbib/SeqQC/releases/tag/v0.1.0-alpha.1):
+Download the newest engineering preview and `SHA256SUMS.txt` from
+[SeqQC Studio Releases](https://github.com/saikatbib/SeqQC/releases):
 
-- Windows x86-64: extract the ZIP and open `SeqQC Studio.exe`.
+- Windows x86-64: download the `Setup` executable for a normal per-user
+  installation with Start-menu and Installed Apps entries. The ZIP remains
+  available as a no-install portable option.
 - macOS Apple silicon: extract the ZIP and move `SeqQC Studio.app` to
   Applications. The preview is unsigned, so use Control-click, then **Open**, on
   first launch.
@@ -102,12 +104,13 @@ validated biological QC or persist an encrypted project.
 cargo build --release --locked --package seqqc-native-desktop
 ```
 
-Tagged builds use `.github/workflows/package.yml` to create Windows, macOS, and
-Linux portable archives, calculate SHA-256 checksums, and publish them on the
-GitHub Releases page. See `packaging/release-checklist.md` before distributing
-binaries. Preview packages are unsigned unless platform signing is configured,
-and they must not be represented as validated clinical or regulated-workflow
-software.
+Tagged builds use `.github/workflows/package.yml` to create a Windows installer,
+a Windows portable archive, macOS and Linux packages, calculate SHA-256
+checksums, and publish them on the GitHub Releases page. The workflow verifies
+that the Windows installer registers in Installed Apps and uninstalls cleanly.
+See `packaging/release-checklist.md` before distributing binaries. Preview
+packages are unsigned unless platform signing is configured, and they must not
+be represented as validated clinical or regulated-workflow software.
 
 ## Safety and scientific scope
 

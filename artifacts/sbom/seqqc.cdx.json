@@ -1,21 +1,21 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:9861061c-550f-44e2-8a82-ddf982cd0922",
+  "serialNumber": "urn:uuid:09f933a3-3ac4-4e2a-86d1-b00145518696",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-08-27T08:25:42.279Z",
+    "timestamp": "2026-08-28T04:53:16.026Z",
     "component": {
       "type": "application",
-      "bom-ref": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.1",
+      "bom-ref": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.2",
       "name": "SeqQC Studio",
-      "version": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
       "licenses": [
         {
           "expression": "Apache-2.0"
         }
       ],
-      "purl": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.1"
+      "purl": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.2"
     },
     "properties": [
       {
@@ -31,6 +31,69 @@
   "components": [
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_atspi_common@0.18.1",
+      "name": "accesskit_atspi_common",
+      "version": "0.18.1",
+      "purl": "pkg:cargo/accesskit_atspi_common@0.18.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_consumer@0.35.0",
+      "name": "accesskit_consumer",
+      "version": "0.35.0",
+      "purl": "pkg:cargo/accesskit_consumer@0.35.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_consumer@0.36.0",
+      "name": "accesskit_consumer",
+      "version": "0.36.0",
+      "purl": "pkg:cargo/accesskit_consumer@0.36.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_consumer@0.38.0",
+      "name": "accesskit_consumer",
+      "version": "0.38.0",
+      "purl": "pkg:cargo/accesskit_consumer@0.38.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_macos@0.26.3",
+      "name": "accesskit_macos",
+      "version": "0.26.3",
+      "purl": "pkg:cargo/accesskit_macos@0.26.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_unix@0.21.1",
+      "name": "accesskit_unix",
+      "version": "0.21.1",
+      "purl": "pkg:cargo/accesskit_unix@0.21.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_windows@0.32.1",
+      "name": "accesskit_windows",
+      "version": "0.32.1",
+      "purl": "pkg:cargo/accesskit_windows@0.32.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit_winit@0.32.2",
+      "name": "accesskit_winit",
+      "version": "0.32.2",
+      "purl": "pkg:cargo/accesskit_winit@0.32.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/accesskit@0.24.1",
+      "name": "accesskit",
+      "version": "0.24.1",
+      "purl": "pkg:cargo/accesskit@0.24.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/adler2@2.0.1",
       "name": "adler2",
       "version": "2.0.1",
@@ -42,6 +105,13 @@
       "name": "aes",
       "version": "0.8.4",
       "purl": "pkg:cargo/aes@0.8.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/ahash@0.8.12",
+      "name": "ahash",
+      "version": "0.8.12",
+      "purl": "pkg:cargo/ahash@0.8.12"
     },
     {
       "type": "library",
@@ -73,6 +143,20 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/android-activity@0.6.1",
+      "name": "android-activity",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/android-activity@0.6.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/android-properties@0.2.2",
+      "name": "android-properties",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/android-properties@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/anyhow@1.0.104",
       "name": "anyhow",
       "version": "1.0.104",
@@ -84,6 +168,27 @@
       "name": "apple-native-keyring-store",
       "version": "1.0.2",
       "purl": "pkg:cargo/apple-native-keyring-store@1.0.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/arboard@3.6.1",
+      "name": "arboard",
+      "version": "3.6.1",
+      "purl": "pkg:cargo/arboard@3.6.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/arrayvec@0.7.8",
+      "name": "arrayvec",
+      "version": "0.7.8",
+      "purl": "pkg:cargo/arrayvec@0.7.8"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/as-raw-xcb-connection@1.0.1",
+      "name": "as-raw-xcb-connection",
+      "version": "1.0.1",
+      "purl": "pkg:cargo/as-raw-xcb-connection@1.0.1"
     },
     {
       "type": "library",
@@ -178,6 +283,27 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/atspi-common@0.13.0",
+      "name": "atspi-common",
+      "version": "0.13.0",
+      "purl": "pkg:cargo/atspi-common@0.13.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/atspi-proxies@0.13.0",
+      "name": "atspi-proxies",
+      "version": "0.13.0",
+      "purl": "pkg:cargo/atspi-proxies@0.13.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/atspi@0.29.0",
+      "name": "atspi",
+      "version": "0.29.0",
+      "purl": "pkg:cargo/atspi@0.29.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/autocfg@1.5.1",
       "name": "autocfg",
       "version": "1.5.1",
@@ -199,6 +325,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/bit-set@0.10.0",
+      "name": "bit-set",
+      "version": "0.10.0",
+      "purl": "pkg:cargo/bit-set@0.10.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/bit-set@0.8.0",
       "name": "bit-set",
       "version": "0.8.0",
@@ -217,6 +350,13 @@
       "name": "bit-vec",
       "version": "0.8.0",
       "purl": "pkg:cargo/bit-vec@0.8.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/bit-vec@0.9.1",
+      "name": "bit-vec",
+      "version": "0.9.1",
+      "purl": "pkg:cargo/bit-vec@0.9.1"
     },
     {
       "type": "library",
@@ -252,6 +392,13 @@
       "name": "block-padding",
       "version": "0.3.3",
       "purl": "pkg:cargo/block-padding@0.3.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/block2@0.5.1",
+      "name": "block2",
+      "version": "0.5.1",
+      "purl": "pkg:cargo/block2@0.5.1"
     },
     {
       "type": "library",
@@ -318,10 +465,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/bytemuck_derive@1.12.0",
+      "name": "bytemuck_derive",
+      "version": "1.12.0",
+      "purl": "pkg:cargo/bytemuck_derive@1.12.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/bytemuck@1.25.2",
       "name": "bytemuck",
       "version": "1.25.2",
       "purl": "pkg:cargo/bytemuck@1.25.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/byteorder-lite@0.1.0",
+      "name": "byteorder-lite",
+      "version": "0.1.0",
+      "purl": "pkg:cargo/byteorder-lite@0.1.0"
     },
     {
       "type": "library",
@@ -357,6 +518,34 @@
       "name": "cairo-sys-rs",
       "version": "0.18.2",
       "purl": "pkg:cargo/cairo-sys-rs@0.18.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/calloop-wayland-source@0.3.0",
+      "name": "calloop-wayland-source",
+      "version": "0.3.0",
+      "purl": "pkg:cargo/calloop-wayland-source@0.3.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/calloop-wayland-source@0.4.1",
+      "name": "calloop-wayland-source",
+      "version": "0.4.1",
+      "purl": "pkg:cargo/calloop-wayland-source@0.4.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/calloop@0.13.0",
+      "name": "calloop",
+      "version": "0.13.0",
+      "purl": "pkg:cargo/calloop@0.13.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/calloop@0.14.4",
+      "name": "calloop",
+      "version": "0.14.4",
+      "purl": "pkg:cargo/calloop@0.14.4"
     },
     {
       "type": "library",
@@ -437,6 +626,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/cgl@0.3.2",
+      "name": "cgl",
+      "version": "0.3.2",
+      "purl": "pkg:cargo/cgl@0.3.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/chrono@0.4.45",
       "name": "chrono",
       "version": "0.4.45",
@@ -448,6 +644,27 @@
       "name": "cipher",
       "version": "0.4.4",
       "purl": "pkg:cargo/cipher@0.4.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/clipboard-win@5.4.1",
+      "name": "clipboard-win",
+      "version": "5.4.1",
+      "purl": "pkg:cargo/clipboard-win@5.4.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/codespan-reporting@0.13.1",
+      "name": "codespan-reporting",
+      "version": "0.13.1",
+      "purl": "pkg:cargo/codespan-reporting@0.13.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/color@0.3.3",
+      "name": "color",
+      "version": "0.3.3",
+      "purl": "pkg:cargo/color@0.3.3"
     },
     {
       "type": "library",
@@ -493,10 +710,31 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/core-foundation@0.9.4",
+      "name": "core-foundation",
+      "version": "0.9.4",
+      "purl": "pkg:cargo/core-foundation@0.9.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/core-graphics-types@0.1.3",
+      "name": "core-graphics-types",
+      "version": "0.1.3",
+      "purl": "pkg:cargo/core-graphics-types@0.1.3"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/core-graphics-types@0.2.0",
       "name": "core-graphics-types",
       "version": "0.2.0",
       "purl": "pkg:cargo/core-graphics-types@0.2.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/core-graphics@0.23.2",
+      "name": "core-graphics",
+      "version": "0.23.2",
+      "purl": "pkg:cargo/core-graphics@0.23.2"
     },
     {
       "type": "library",
@@ -556,6 +794,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/crunchy@0.2.4",
+      "name": "crunchy",
+      "version": "0.2.4",
+      "purl": "pkg:cargo/crunchy@0.2.4"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/crypto-common@0.1.7",
       "name": "crypto-common",
       "version": "0.1.7",
@@ -595,6 +840,13 @@
       "name": "ctor",
       "version": "0.8.0",
       "purl": "pkg:cargo/ctor@0.8.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/cursor-icon@1.2.0",
+      "name": "cursor-icon",
+      "version": "1.2.0",
+      "purl": "pkg:cargo/cursor-icon@1.2.0"
     },
     {
       "type": "library",
@@ -696,6 +948,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/dispatch@0.2.0",
+      "name": "dispatch",
+      "version": "0.2.0",
+      "purl": "pkg:cargo/dispatch@0.2.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/dispatch2@0.3.1",
       "name": "dispatch2",
       "version": "0.3.1",
@@ -707,6 +966,13 @@
       "name": "displaydoc",
       "version": "0.2.7",
       "purl": "pkg:cargo/displaydoc@0.2.7"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/dlib@0.5.3",
+      "name": "dlib",
+      "version": "0.5.3",
+      "purl": "pkg:cargo/dlib@0.5.3"
     },
     {
       "type": "library",
@@ -724,10 +990,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/document-features@0.2.12",
+      "name": "document-features",
+      "version": "0.2.12",
+      "purl": "pkg:cargo/document-features@0.2.12"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/dom_query@0.27.0",
       "name": "dom_query",
       "version": "0.27.0",
       "purl": "pkg:cargo/dom_query@0.27.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/downcast-rs@1.2.1",
+      "name": "downcast-rs",
+      "version": "1.2.1",
+      "purl": "pkg:cargo/downcast-rs@1.2.1"
     },
     {
       "type": "library",
@@ -780,10 +1060,59 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/ecolor@0.36.1",
+      "name": "ecolor",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/ecolor@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/eframe@0.36.1",
+      "name": "eframe",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/eframe@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/egui_glow@0.36.1",
+      "name": "egui_glow",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/egui_glow@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/egui-wgpu@0.36.1",
+      "name": "egui-wgpu",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/egui-wgpu@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/egui-winit@0.36.1",
+      "name": "egui-winit",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/egui-winit@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/egui@0.36.1",
+      "name": "egui",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/egui@0.36.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/either@1.18.0",
       "name": "either",
       "version": "1.18.0",
       "purl": "pkg:cargo/either@1.18.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/emath@0.36.1",
+      "name": "emath",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/emath@0.36.1"
     },
     {
       "type": "library",
@@ -822,6 +1151,20 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/epaint_default_fonts@0.36.1",
+      "name": "epaint_default_fonts",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/epaint_default_fonts@0.36.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/epaint@0.36.1",
+      "name": "epaint",
+      "version": "0.36.1",
+      "purl": "pkg:cargo/epaint@0.36.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/equivalent@1.0.2",
       "name": "equivalent",
       "version": "1.0.2",
@@ -840,6 +1183,20 @@
       "name": "errno",
       "version": "0.3.14",
       "purl": "pkg:cargo/errno@0.3.14"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/error-code@3.4.0",
+      "name": "error-code",
+      "version": "3.4.0",
+      "purl": "pkg:cargo/error-code@3.4.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/euclid@0.22.14",
+      "name": "euclid",
+      "version": "0.22.14",
+      "purl": "pkg:cargo/euclid@0.22.14"
     },
     {
       "type": "library",
@@ -878,10 +1235,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/fax@0.2.7",
+      "name": "fax",
+      "version": "0.2.7",
+      "purl": "pkg:cargo/fax@0.2.7"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/fdeflate@0.3.7",
       "name": "fdeflate",
       "version": "0.3.7",
       "purl": "pkg:cargo/fdeflate@0.3.7"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/fearless_simd@0.4.1",
+      "name": "fearless_simd",
+      "version": "0.4.1",
+      "purl": "pkg:cargo/fearless_simd@0.4.1"
     },
     {
       "type": "library",
@@ -922,6 +1293,13 @@
       "name": "foldhash",
       "version": "0.2.0",
       "purl": "pkg:cargo/foldhash@0.2.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/font-types@0.12.4",
+      "name": "font-types",
+      "version": "0.12.4",
+      "purl": "pkg:cargo/font-types@0.12.4"
     },
     {
       "type": "library",
@@ -1072,6 +1450,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/gethostname@1.1.0",
+      "name": "gethostname",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/gethostname@1.1.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/getrandom@0.2.17",
       "name": "getrandom",
       "version": "0.2.17",
@@ -1122,6 +1507,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/gl_generator@0.14.0",
+      "name": "gl_generator",
+      "version": "0.14.0",
+      "purl": "pkg:cargo/gl_generator@0.14.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/glib-macros@0.18.5",
       "name": "glib-macros",
       "version": "0.18.5",
@@ -1143,10 +1535,59 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/glifo@0.2.0",
+      "name": "glifo",
+      "version": "0.2.0",
+      "purl": "pkg:cargo/glifo@0.2.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/glob@0.3.4",
       "name": "glob",
       "version": "0.3.4",
       "purl": "pkg:cargo/glob@0.3.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glow@0.17.0",
+      "name": "glow",
+      "version": "0.17.0",
+      "purl": "pkg:cargo/glow@0.17.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glutin_egl_sys@0.7.1",
+      "name": "glutin_egl_sys",
+      "version": "0.7.1",
+      "purl": "pkg:cargo/glutin_egl_sys@0.7.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glutin_glx_sys@0.6.1",
+      "name": "glutin_glx_sys",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/glutin_glx_sys@0.6.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glutin_wgl_sys@0.6.1",
+      "name": "glutin_wgl_sys",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/glutin_wgl_sys@0.6.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glutin-winit@0.5.0",
+      "name": "glutin-winit",
+      "version": "0.5.0",
+      "purl": "pkg:cargo/glutin-winit@0.5.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/glutin@0.32.3",
+      "name": "glutin",
+      "version": "0.32.3",
+      "purl": "pkg:cargo/glutin@0.32.3"
     },
     {
       "type": "library",
@@ -1175,6 +1616,27 @@
       "name": "gtk3-macros",
       "version": "0.18.2",
       "purl": "pkg:cargo/gtk3-macros@0.18.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/guillotiere@0.7.0",
+      "name": "guillotiere",
+      "version": "0.7.0",
+      "purl": "pkg:cargo/guillotiere@0.7.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/half@2.7.1",
+      "name": "half",
+      "version": "2.7.1",
+      "purl": "pkg:cargo/half@2.7.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/harfrust@0.12.0",
+      "name": "harfrust",
+      "version": "0.12.0",
+      "purl": "pkg:cargo/harfrust@0.12.0"
     },
     {
       "type": "library",
@@ -1400,6 +1862,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/image@0.25.10",
+      "name": "image",
+      "version": "0.25.10",
+      "purl": "pkg:cargo/image@0.25.10"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/indexmap@1.9.3",
       "name": "indexmap",
       "version": "1.9.3",
@@ -1432,6 +1901,13 @@
       "name": "ipnet",
       "version": "2.12.1",
       "purl": "pkg:cargo/ipnet@2.12.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/itertools@0.15.0",
+      "name": "itertools",
+      "version": "0.15.0",
+      "purl": "pkg:cargo/itertools@0.15.0"
     },
     {
       "type": "library",
@@ -1491,6 +1967,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/jni-macros@0.22.4",
+      "name": "jni-macros",
+      "version": "0.22.4",
+      "purl": "pkg:cargo/jni-macros@0.22.4"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/jni-sys-macros@0.4.1",
       "name": "jni-sys-macros",
       "version": "0.4.1",
@@ -1516,6 +1999,20 @@
       "name": "jni",
       "version": "0.21.1",
       "purl": "pkg:cargo/jni@0.21.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/jni@0.22.4",
+      "name": "jni",
+      "version": "0.22.4",
+      "purl": "pkg:cargo/jni@0.22.4"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/jobserver@0.1.35",
+      "name": "jobserver",
+      "version": "0.1.35",
+      "purl": "pkg:cargo/jobserver@0.1.35"
     },
     {
       "type": "library",
@@ -1563,6 +2060,20 @@
         }
       ],
       "purl": "pkg:cargo/keyring@4.1.6"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/khronos_api@3.1.0",
+      "name": "khronos_api",
+      "version": "3.1.0",
+      "purl": "pkg:cargo/khronos_api@3.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/kurbo@0.13.1",
+      "name": "kurbo",
+      "version": "0.13.1",
+      "purl": "pkg:cargo/kurbo@0.13.1"
     },
     {
       "type": "library",
@@ -1650,6 +2161,20 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/libloading@0.8.9",
+      "name": "libloading",
+      "version": "0.8.9",
+      "purl": "pkg:cargo/libloading@0.8.9"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/libm@0.2.16",
+      "name": "libm",
+      "version": "0.2.16",
+      "purl": "pkg:cargo/libm@0.2.16"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/libredox@0.1.20",
       "name": "libredox",
       "version": "0.1.20",
@@ -1664,6 +2189,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/linebender_resource_handle@0.1.1",
+      "name": "linebender_resource_handle",
+      "version": "0.1.1",
+      "purl": "pkg:cargo/linebender_resource_handle@0.1.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/linux-raw-sys@0.12.1",
       "name": "linux-raw-sys",
       "version": "0.12.1",
@@ -1671,10 +2203,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/linux-raw-sys@0.4.15",
+      "name": "linux-raw-sys",
+      "version": "0.4.15",
+      "purl": "pkg:cargo/linux-raw-sys@0.4.15"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/litemap@0.8.3",
       "name": "litemap",
       "version": "0.8.3",
       "purl": "pkg:cargo/litemap@0.8.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/litrs@1.0.0",
+      "name": "litrs",
+      "version": "1.0.0",
+      "purl": "pkg:cargo/litrs@1.0.0"
     },
     {
       "type": "library",
@@ -1720,6 +2266,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/memmap2@0.9.11",
+      "name": "memmap2",
+      "version": "0.9.11",
+      "purl": "pkg:cargo/memmap2@0.9.11"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/memoffset@0.9.1",
       "name": "memoffset",
       "version": "0.9.1",
@@ -1748,10 +2301,38 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/moxcms@0.8.1",
+      "name": "moxcms",
+      "version": "0.8.1",
+      "purl": "pkg:cargo/moxcms@0.8.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/muda@0.19.3",
       "name": "muda",
       "version": "0.19.3",
       "purl": "pkg:cargo/muda@0.19.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/naga-types@30.0.1",
+      "name": "naga-types",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/naga-types@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/naga@30.0.1",
+      "name": "naga",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/naga@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/ndk-context@0.1.1",
+      "name": "ndk-context",
+      "version": "0.1.1",
+      "purl": "pkg:cargo/ndk-context@0.1.1"
     },
     {
       "type": "library",
@@ -1773,6 +2354,13 @@
       "name": "new_debug_unreachable",
       "version": "1.0.6",
       "purl": "pkg:cargo/new_debug_unreachable@1.0.6"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/nohash-hasher@0.2.0",
+      "name": "nohash-hasher",
+      "version": "0.2.0",
+      "purl": "pkg:cargo/nohash-hasher@0.2.0"
     },
     {
       "type": "library",
@@ -1914,6 +2502,20 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc-sys@0.3.5",
+      "name": "objc-sys",
+      "version": "0.3.5",
+      "purl": "pkg:cargo/objc-sys@0.3.5"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-app-kit@0.2.2",
+      "name": "objc2-app-kit",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-app-kit@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-app-kit@0.3.2",
       "name": "objc2-app-kit",
       "version": "0.3.2",
@@ -1921,10 +2523,31 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc2-cloud-kit@0.2.2",
+      "name": "objc2-cloud-kit",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-cloud-kit@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-cloud-kit@0.3.2",
       "name": "objc2-cloud-kit",
       "version": "0.3.2",
       "purl": "pkg:cargo/objc2-cloud-kit@0.3.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-contacts@0.2.2",
+      "name": "objc2-contacts",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-contacts@0.2.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-core-data@0.2.2",
+      "name": "objc2-core-data",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-core-data@0.2.2"
     },
     {
       "type": "library",
@@ -1949,10 +2572,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc2-core-image@0.2.2",
+      "name": "objc2-core-image",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-core-image@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-core-image@0.3.2",
       "name": "objc2-core-image",
       "version": "0.3.2",
       "purl": "pkg:cargo/objc2-core-image@0.3.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-core-location@0.2.2",
+      "name": "objc2-core-location",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-core-location@0.2.2"
     },
     {
       "type": "library",
@@ -1984,6 +2621,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc2-foundation@0.2.2",
+      "name": "objc2-foundation",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-foundation@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-foundation@0.3.2",
       "name": "objc2-foundation",
       "version": "0.3.2",
@@ -1998,6 +2642,27 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc2-link-presentation@0.2.2",
+      "name": "objc2-link-presentation",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-link-presentation@0.2.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-metal@0.2.2",
+      "name": "objc2-metal",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-metal@0.2.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-quartz-core@0.2.2",
+      "name": "objc2-quartz-core",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-quartz-core@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-quartz-core@0.3.2",
       "name": "objc2-quartz-core",
       "version": "0.3.2",
@@ -2005,10 +2670,38 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/objc2-symbols@0.2.2",
+      "name": "objc2-symbols",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-symbols@0.2.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-ui-kit@0.2.2",
+      "name": "objc2-ui-kit",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-ui-kit@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/objc2-ui-kit@0.3.2",
       "name": "objc2-ui-kit",
       "version": "0.3.2",
       "purl": "pkg:cargo/objc2-ui-kit@0.3.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-uniform-type-identifiers@0.2.2",
+      "name": "objc2-uniform-type-identifiers",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-uniform-type-identifiers@0.2.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2-user-notifications@0.2.2",
+      "name": "objc2-user-notifications",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/objc2-user-notifications@0.2.2"
     },
     {
       "type": "library",
@@ -2023,6 +2716,13 @@
       "name": "objc2-web-kit",
       "version": "0.3.2",
       "purl": "pkg:cargo/objc2-web-kit@0.3.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/objc2@0.5.2",
+      "name": "objc2",
+      "version": "0.5.2",
+      "purl": "pkg:cargo/objc2@0.5.2"
     },
     {
       "type": "library",
@@ -2058,6 +2758,13 @@
       "name": "option-ext",
       "version": "0.2.0",
       "purl": "pkg:cargo/option-ext@0.2.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/orbclient@0.3.55",
+      "name": "orbclient",
+      "version": "0.3.55",
+      "purl": "pkg:cargo/orbclient@0.3.55"
     },
     {
       "type": "library",
@@ -2103,6 +2810,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/peniko@0.6.1",
+      "name": "peniko",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/peniko@0.6.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/percent-encoding@2.3.2",
       "name": "percent-encoding",
       "version": "2.3.2",
@@ -2145,10 +2859,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/pin-project-internal@1.1.13",
+      "name": "pin-project-internal",
+      "version": "1.1.13",
+      "purl": "pkg:cargo/pin-project-internal@1.1.13"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/pin-project-lite@0.2.17",
       "name": "pin-project-lite",
       "version": "0.2.17",
       "purl": "pkg:cargo/pin-project-lite@0.2.17"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/pin-project@1.1.13",
+      "name": "pin-project",
+      "version": "1.1.13",
+      "purl": "pkg:cargo/pin-project@1.1.13"
     },
     {
       "type": "library",
@@ -2163,6 +2891,13 @@
       "name": "pkg-config",
       "version": "0.3.34",
       "purl": "pkg:cargo/pkg-config@0.3.34"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/plain@0.2.3",
+      "name": "plain",
+      "version": "0.2.3",
+      "purl": "pkg:cargo/plain@0.2.3"
     },
     {
       "type": "library",
@@ -2191,6 +2926,20 @@
       "name": "polling",
       "version": "3.11.0",
       "purl": "pkg:cargo/polling@3.11.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/pollster@0.4.0",
+      "name": "pollster",
+      "version": "0.4.0",
+      "purl": "pkg:cargo/pollster@0.4.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/polycool@0.4.0",
+      "name": "polycool",
+      "version": "0.4.0",
+      "purl": "pkg:cargo/polycool@0.4.0"
     },
     {
       "type": "library",
@@ -2271,6 +3020,27 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/profiling@1.0.18",
+      "name": "profiling",
+      "version": "1.0.18",
+      "purl": "pkg:cargo/profiling@1.0.18"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/pxfm@0.1.30",
+      "name": "pxfm",
+      "version": "0.1.30",
+      "purl": "pkg:cargo/pxfm@0.1.30"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/quick-error@2.0.1",
+      "name": "quick-error",
+      "version": "2.0.1",
+      "purl": "pkg:cargo/quick-error@2.0.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/quick-xml@0.41.0",
       "name": "quick-xml",
       "version": "0.41.0",
@@ -2320,10 +3090,31 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/read-fonts@0.41.0",
+      "name": "read-fonts",
+      "version": "0.41.0",
+      "purl": "pkg:cargo/read-fonts@0.41.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/redox_syscall@0.4.1",
+      "name": "redox_syscall",
+      "version": "0.4.1",
+      "purl": "pkg:cargo/redox_syscall@0.4.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/redox_syscall@0.5.18",
       "name": "redox_syscall",
       "version": "0.5.18",
       "purl": "pkg:cargo/redox_syscall@0.5.18"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/redox_syscall@0.9.3",
+      "name": "redox_syscall",
+      "version": "0.9.3",
+      "purl": "pkg:cargo/redox_syscall@0.9.3"
     },
     {
       "type": "library",
@@ -2369,6 +3160,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/renderdoc-sys@1.1.0",
+      "name": "renderdoc-sys",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/renderdoc-sys@1.1.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/reqwest@0.13.4",
       "name": "reqwest",
       "version": "0.13.4",
@@ -2379,7 +3177,24 @@
       "bom-ref": "pkg:cargo/rfd@0.16.0",
       "name": "rfd",
       "version": "0.16.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
       "purl": "pkg:cargo/rfd@0.16.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/rfd@0.17.2",
+      "name": "rfd",
+      "version": "0.17.2",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "purl": "pkg:cargo/rfd@0.17.2"
     },
     {
       "type": "library",
@@ -2409,10 +3224,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/rustc-hash@1.1.0",
+      "name": "rustc-hash",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/rustc-hash@1.1.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/rustc-hash@2.1.3",
       "name": "rustc-hash",
       "version": "2.1.3",
       "purl": "pkg:cargo/rustc-hash@2.1.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/rustix@0.38.44",
+      "name": "rustix",
+      "version": "0.38.44",
+      "purl": "pkg:cargo/rustix@0.38.44"
     },
     {
       "type": "library",
@@ -2465,6 +3294,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/scoped-tls@1.0.1",
+      "name": "scoped-tls",
+      "version": "1.0.1",
+      "purl": "pkg:cargo/scoped-tls@1.0.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/scopeguard@1.2.0",
       "name": "scopeguard",
       "version": "1.2.0",
@@ -2500,6 +3336,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/self_cell@1.3.0",
+      "name": "self_cell",
+      "version": "1.3.0",
+      "purl": "pkg:cargo/self_cell@1.3.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/semver@1.0.28",
       "name": "semver",
       "version": "1.0.28",
@@ -2507,59 +3350,66 @@
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-contracts@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-contracts@0.1.0-alpha.2",
       "name": "seqqc-contracts",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-contracts@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-contracts@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-desktop@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-desktop@0.1.0-alpha.2",
       "name": "seqqc-desktop",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-desktop@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-desktop@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-discovery@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-discovery@0.1.0-alpha.2",
       "name": "seqqc-discovery",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-discovery@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-discovery@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-engine@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-engine@0.1.0-alpha.2",
       "name": "seqqc-engine",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-engine@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-engine@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-execution@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-execution@0.1.0-alpha.2",
       "name": "seqqc-execution",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-execution@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-execution@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-formats@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-formats@0.1.0-alpha.2",
       "name": "seqqc-formats",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-formats@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-formats@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-reporting@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.2",
+      "name": "seqqc-native-desktop",
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/seqqc-reporting@0.1.0-alpha.2",
       "name": "seqqc-reporting",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-reporting@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-reporting@0.1.0-alpha.2"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-security@0.1.0-alpha.1",
+      "bom-ref": "pkg:cargo/seqqc-security@0.1.0-alpha.2",
       "name": "seqqc-security",
-      "version": "0.1.0-alpha.1",
-      "purl": "pkg:cargo/seqqc-security@0.1.0-alpha.1"
+      "version": "0.1.0-alpha.2",
+      "purl": "pkg:cargo/seqqc-security@0.1.0-alpha.2"
     },
     {
       "type": "library",
@@ -2699,10 +3549,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/simd_cesu8@1.2.0",
+      "name": "simd_cesu8",
+      "version": "1.2.0",
+      "purl": "pkg:cargo/simd_cesu8@1.2.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/simd-adler32@0.3.10",
       "name": "simd-adler32",
       "version": "0.3.10",
       "purl": "pkg:cargo/simd-adler32@0.3.10"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/simdutf8@0.1.5",
+      "name": "simdutf8",
+      "version": "0.1.5",
+      "purl": "pkg:cargo/simdutf8@0.1.5"
     },
     {
       "type": "library",
@@ -2713,6 +3577,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/skrifa@0.44.0",
+      "name": "skrifa",
+      "version": "0.44.0",
+      "purl": "pkg:cargo/skrifa@0.44.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/slab@0.4.12",
       "name": "slab",
       "version": "0.4.12",
@@ -2720,10 +3591,45 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/slotmap@1.1.1",
+      "name": "slotmap",
+      "version": "1.1.1",
+      "purl": "pkg:cargo/slotmap@1.1.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/smallvec@1.15.2",
       "name": "smallvec",
       "version": "1.15.2",
       "purl": "pkg:cargo/smallvec@1.15.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/smithay-client-toolkit@0.19.2",
+      "name": "smithay-client-toolkit",
+      "version": "0.19.2",
+      "purl": "pkg:cargo/smithay-client-toolkit@0.19.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/smithay-client-toolkit@0.20.0",
+      "name": "smithay-client-toolkit",
+      "version": "0.20.0",
+      "purl": "pkg:cargo/smithay-client-toolkit@0.20.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/smithay-clipboard@0.7.3",
+      "name": "smithay-clipboard",
+      "version": "0.7.3",
+      "purl": "pkg:cargo/smithay-clipboard@0.7.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/smol_str@0.2.2",
+      "name": "smol_str",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/smol_str@0.2.2"
     },
     {
       "type": "library",
@@ -2766,6 +3672,13 @@
       "name": "stable_deref_trait",
       "version": "1.2.1",
       "purl": "pkg:cargo/stable_deref_trait@1.2.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/static_assertions@1.1.0",
+      "name": "static_assertions",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/static_assertions@1.1.0"
     },
     {
       "type": "library",
@@ -2996,6 +3909,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/tiff@0.11.3",
+      "name": "tiff",
+      "version": "0.11.3",
+      "purl": "pkg:cargo/tiff@0.11.3"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/time-core@0.1.9",
       "name": "time-core",
       "version": "0.1.9",
@@ -3197,6 +4117,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/type-map@0.5.1",
+      "name": "type-map",
+      "version": "0.5.1",
+      "purl": "pkg:cargo/type-map@0.5.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/typeid@1.0.3",
       "name": "typeid",
       "version": "1.0.3",
@@ -3253,6 +4180,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/unicode-general-category@1.1.0",
+      "name": "unicode-general-category",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/unicode-general-category@1.1.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/unicode-ident@1.0.24",
       "name": "unicode-ident",
       "version": "1.0.24",
@@ -3264,6 +4198,13 @@
       "name": "unicode-segmentation",
       "version": "1.13.3",
       "purl": "pkg:cargo/unicode-segmentation@1.13.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/unicode-width@0.2.2",
+      "name": "unicode-width",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/unicode-width@0.2.2"
     },
     {
       "type": "library",
@@ -3299,6 +4240,20 @@
       "name": "vcpkg",
       "version": "0.2.15",
       "purl": "pkg:cargo/vcpkg@0.2.15"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/vello_common@0.1.0",
+      "name": "vello_common",
+      "version": "0.1.0",
+      "purl": "pkg:cargo/vello_common@0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/vello_cpu@0.1.0",
+      "name": "vello_cpu",
+      "version": "0.1.0",
+      "purl": "pkg:cargo/vello_cpu@0.1.0"
     },
     {
       "type": "library",
@@ -3400,6 +4355,83 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/wayland-backend@0.3.17",
+      "name": "wayland-backend",
+      "version": "0.3.17",
+      "purl": "pkg:cargo/wayland-backend@0.3.17"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-client@0.31.15",
+      "name": "wayland-client",
+      "version": "0.31.15",
+      "purl": "pkg:cargo/wayland-client@0.31.15"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-csd-frame@0.3.0",
+      "name": "wayland-csd-frame",
+      "version": "0.3.0",
+      "purl": "pkg:cargo/wayland-csd-frame@0.3.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-cursor@0.31.14",
+      "name": "wayland-cursor",
+      "version": "0.31.14",
+      "purl": "pkg:cargo/wayland-cursor@0.31.14"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-protocols-experimental@20250721.0.1",
+      "name": "wayland-protocols-experimental",
+      "version": "20250721.0.1",
+      "purl": "pkg:cargo/wayland-protocols-experimental@20250721.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-protocols-misc@0.3.12",
+      "name": "wayland-protocols-misc",
+      "version": "0.3.12",
+      "purl": "pkg:cargo/wayland-protocols-misc@0.3.12"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-protocols-plasma@0.3.12",
+      "name": "wayland-protocols-plasma",
+      "version": "0.3.12",
+      "purl": "pkg:cargo/wayland-protocols-plasma@0.3.12"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-protocols-wlr@0.3.12",
+      "name": "wayland-protocols-wlr",
+      "version": "0.3.12",
+      "purl": "pkg:cargo/wayland-protocols-wlr@0.3.12"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-protocols@0.32.13",
+      "name": "wayland-protocols",
+      "version": "0.32.13",
+      "purl": "pkg:cargo/wayland-protocols@0.32.13"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-scanner@0.31.11",
+      "name": "wayland-scanner",
+      "version": "0.31.11",
+      "purl": "pkg:cargo/wayland-scanner@0.31.11"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wayland-sys@0.31.11",
+      "name": "wayland-sys",
+      "version": "0.31.11",
+      "purl": "pkg:cargo/wayland-sys@0.31.11"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/web_atoms@0.2.6",
       "name": "web_atoms",
       "version": "0.2.6",
@@ -3411,6 +4443,13 @@
       "name": "web-sys",
       "version": "0.3.104",
       "purl": "pkg:cargo/web-sys@0.3.104"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/web-time@1.1.0",
+      "name": "web-time",
+      "version": "1.1.0",
+      "purl": "pkg:cargo/web-time@1.1.0"
     },
     {
       "type": "library",
@@ -3446,6 +4485,55 @@
       "name": "webview2-com",
       "version": "0.38.2",
       "purl": "pkg:cargo/webview2-com@0.38.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/weezl@0.1.12",
+      "name": "weezl",
+      "version": "0.1.12",
+      "purl": "pkg:cargo/weezl@0.1.12"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu-core-deps-windows-linux-android@30.0.1",
+      "name": "wgpu-core-deps-windows-linux-android",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu-core-deps-windows-linux-android@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu-core@30.0.1",
+      "name": "wgpu-core",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu-core@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu-hal@30.0.1",
+      "name": "wgpu-hal",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu-hal@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu-naga-bridge@30.0.1",
+      "name": "wgpu-naga-bridge",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu-naga-bridge@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu-types@30.0.1",
+      "name": "wgpu-types",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu-types@30.0.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/wgpu@30.0.1",
+      "name": "wgpu",
+      "version": "30.0.1",
+      "purl": "pkg:cargo/wgpu@30.0.1"
     },
     {
       "type": "library",
@@ -3652,6 +4740,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/windows-collections@0.3.2",
+      "name": "windows-collections",
+      "version": "0.3.2",
+      "purl": "pkg:cargo/windows-collections@0.3.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/windows-core@0.61.2",
       "name": "windows-core",
       "version": "0.61.2",
@@ -3670,6 +4765,13 @@
       "name": "windows-future",
       "version": "0.2.1",
       "purl": "pkg:cargo/windows-future@0.2.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/windows-future@0.3.2",
+      "name": "windows-future",
+      "version": "0.3.2",
+      "purl": "pkg:cargo/windows-future@0.3.2"
     },
     {
       "type": "library",
@@ -3715,6 +4817,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/windows-numerics@0.3.1",
+      "name": "windows-numerics",
+      "version": "0.3.1",
+      "purl": "pkg:cargo/windows-numerics@0.3.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/windows-result@0.3.4",
       "name": "windows-result",
       "version": "0.3.4",
@@ -3747,6 +4856,13 @@
       "name": "windows-sys",
       "version": "0.45.0",
       "purl": "pkg:cargo/windows-sys@0.45.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/windows-sys@0.52.0",
+      "name": "windows-sys",
+      "version": "0.52.0",
+      "purl": "pkg:cargo/windows-sys@0.52.0"
     },
     {
       "type": "library",
@@ -3799,6 +4915,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/windows-threading@0.2.1",
+      "name": "windows-threading",
+      "version": "0.2.1",
+      "purl": "pkg:cargo/windows-threading@0.2.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/windows-version@0.1.7",
       "name": "windows-version",
       "version": "0.1.7",
@@ -3810,6 +4933,20 @@
       "name": "windows",
       "version": "0.61.3",
       "purl": "pkg:cargo/windows@0.61.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/windows@0.62.2",
+      "name": "windows",
+      "version": "0.62.2",
+      "purl": "pkg:cargo/windows@0.62.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/winit@0.30.13",
+      "name": "winit",
+      "version": "0.30.13",
+      "purl": "pkg:cargo/winit@0.30.13"
     },
     {
       "type": "library",
@@ -3876,6 +5013,48 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/x11rb-protocol@0.13.2",
+      "name": "x11rb-protocol",
+      "version": "0.13.2",
+      "purl": "pkg:cargo/x11rb-protocol@0.13.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/x11rb@0.13.2",
+      "name": "x11rb",
+      "version": "0.13.2",
+      "purl": "pkg:cargo/x11rb@0.13.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/xcursor@0.3.11",
+      "name": "xcursor",
+      "version": "0.3.11",
+      "purl": "pkg:cargo/xcursor@0.3.11"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/xkbcommon-dl@0.4.2",
+      "name": "xkbcommon-dl",
+      "version": "0.4.2",
+      "purl": "pkg:cargo/xkbcommon-dl@0.4.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/xkeysym@0.2.1",
+      "name": "xkeysym",
+      "version": "0.2.1",
+      "purl": "pkg:cargo/xkeysym@0.2.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/xml-rs@0.8.29",
+      "name": "xml-rs",
+      "version": "0.8.29",
+      "purl": "pkg:cargo/xml-rs@0.8.29"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/yoke-derive@0.8.2",
       "name": "yoke-derive",
       "version": "0.8.2",
@@ -3904,6 +5083,27 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/zbus_xml@5.2.1",
+      "name": "zbus_xml",
+      "version": "5.2.1",
+      "purl": "pkg:cargo/zbus_xml@5.2.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zbus-lockstep-macros@0.5.2",
+      "name": "zbus-lockstep-macros",
+      "version": "0.5.2",
+      "purl": "pkg:cargo/zbus-lockstep-macros@0.5.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zbus-lockstep@0.5.2",
+      "name": "zbus-lockstep",
+      "version": "0.5.2",
+      "purl": "pkg:cargo/zbus-lockstep@0.5.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/zbus-secret-service-keyring-store@1.0.1",
       "name": "zbus-secret-service-keyring-store",
       "version": "1.0.1",
@@ -3922,6 +5122,20 @@
       "name": "zcheapstr",
       "version": "1.1.0",
       "purl": "pkg:cargo/zcheapstr@1.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zerocopy-derive@0.8.56",
+      "name": "zerocopy-derive",
+      "version": "0.8.56",
+      "purl": "pkg:cargo/zerocopy-derive@0.8.56"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zerocopy@0.8.56",
+      "name": "zerocopy",
+      "version": "0.8.56",
+      "purl": "pkg:cargo/zerocopy@0.8.56"
     },
     {
       "type": "library",
@@ -3983,6 +5197,20 @@
       "name": "zmij",
       "version": "1.0.23",
       "purl": "pkg:cargo/zmij@1.0.23"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zune-core@0.5.3",
+      "name": "zune-core",
+      "version": "0.5.3",
+      "purl": "pkg:cargo/zune-core@0.5.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/zune-jpeg@0.5.15",
+      "name": "zune-jpeg",
+      "version": "0.5.15",
+      "purl": "pkg:cargo/zune-jpeg@0.5.15"
     },
     {
       "type": "library",

@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const rootPackage = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+const projectVersion = rootPackage.version;
 const candidateDocument = JSON.parse(await readFile(path.join(root, 'config', 'dependency-candidates.json'), 'utf8'));
 const licenseSignals = new Map(candidateDocument.candidates.map((item) => [item.id, item.license_signal]));
 const cargoLock = await readFile(path.join(root, 'Cargo.lock'), 'utf8');
@@ -53,11 +55,11 @@ const bom = {
     timestamp: new Date().toISOString(),
     component: {
       type: 'application',
-      'bom-ref': 'pkg:github/saikatbib/SeqQC@0.1.0-alpha.1',
+      'bom-ref': `pkg:github/saikatbib/SeqQC@${projectVersion}`,
       name: 'SeqQC Studio',
-      version: '0.1.0-alpha.1',
+      version: projectVersion,
       licenses: [{ expression: 'Apache-2.0' }],
-      purl: 'pkg:github/saikatbib/SeqQC@0.1.0-alpha.1',
+      purl: `pkg:github/saikatbib/SeqQC@${projectVersion}`,
     },
     properties: [
       { name: 'seqqc:runtime-network-required', value: 'false' },

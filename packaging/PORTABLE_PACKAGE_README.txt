@@ -7,6 +7,8 @@ Internet connection to start or inspect local sequencing inputs.
 Windows
 -------
 Extract the entire ZIP archive, then double-click "SeqQC Studio.exe".
+For a normal installation with Start-menu, Installed Apps, and uninstall
+entries, download the Windows Setup executable from the GitHub Release instead.
 
 macOS (Apple silicon)
 ---------------------
