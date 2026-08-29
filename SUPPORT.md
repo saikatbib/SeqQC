@@ -1,9 +1,10 @@
 # Support
 
-SeqQC Studio `0.1.0-alpha.2` is an investigational native-shell preview. It can
-discover and structurally inspect local FASTQ, BAM, and CRAM files and export
-an operational readiness report. It does not yet calculate validated
-assay-specific biological QC metrics.
+SeqQC Studio `0.1.0-alpha.3` is an investigational native-shell preview. It can
+create and reopen encrypted local projects and discover and structurally inspect
+local FASTQ, BAM, and CRAM files. It does not yet calculate validated
+assay-specific biological QC metrics. Local passphrases cannot be reset or
+recovered by the project.
 
 For reproducible bugs or feature proposals, open a GitHub issue and include the
 SeqQC version, operating system, input format, nonsensitive reproduction steps,

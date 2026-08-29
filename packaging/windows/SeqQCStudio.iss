@@ -4,15 +4,15 @@
 #define MyAppExeName "SeqQC Studio.exe"
 
 #ifndef MyAppVersion
-  #define MyAppVersion "0.1.0-alpha.2"
+  #define MyAppVersion "0.1.0-alpha.3"
 #endif
 
 #ifndef MyNumericVersion
-  #define MyNumericVersion "0.1.0.2"
+  #define MyNumericVersion "0.1.0.3"
 #endif
 
 #ifndef MyOutputBaseFilename
-  #define MyOutputBaseFilename "SeqQC-Studio-Setup-v0.1.0-alpha.2-windows-x86_64"
+  #define MyOutputBaseFilename "SeqQC-Studio-Setup-v0.1.0-alpha.3-windows-x86_64"
 #endif
 
 [Setup]

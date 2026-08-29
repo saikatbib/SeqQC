@@ -2,7 +2,13 @@ SeqQC Studio - Engineering Preview
 ==================================
 
 SeqQC Studio is a local-first native desktop application. It does not need an
-Internet connection to start or inspect local sequencing inputs.
+Internet connection to start, manage encrypted projects, or inspect local
+sequencing inputs.
+
+On first launch, create a local passphrase of at least 12 characters. SeqQC has
+no online password-reset service. Store the passphrase in your approved offline
+password manager; losing it currently makes the encrypted profile and project
+keys unrecoverable.
 
 Windows
 -------
@@ -27,9 +33,11 @@ The preview is built on Ubuntu 24.04 and requires a graphical Linux desktop.
 
 Important limitations
 ---------------------
-This is an early engineering preview. It demonstrates the offline native shell
-and local sequencing-file discovery. It is not yet validated for clinical or
-diagnostic use, and it does not yet run the complete SeqQC analysis pipeline.
+This is an early engineering preview. It demonstrates the offline native shell,
+encrypted project lifecycle, and local sequencing-file discovery. The
+cryptographic format still requires independent review. It is not validated for
+clinical or diagnostic use, and it does not yet run the complete SeqQC analysis
+pipeline.
 
 Project: https://github.com/saikatbib/SeqQC
 License: Apache-2.0

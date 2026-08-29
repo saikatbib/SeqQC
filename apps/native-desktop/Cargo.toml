@@ -12,6 +12,8 @@ eframe = { version = "=0.36.1", default-features = false, features = ["accesskit
 rfd = { version = "=0.17.2", default-features = false, features = ["xdg-portal"] }
 seqqc-discovery = { path = "../../crates/seqqc-discovery" }
 seqqc-engine = { path = "../../crates/seqqc-engine" }
+seqqc-projects = { path = "../../crates/seqqc-projects" }
+zeroize = "=1.9.0"
 
 [lints]
 workspace = true

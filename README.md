@@ -5,10 +5,11 @@ desktop application for understandable sequencing input quality control. It is
 designed for wet-lab researchers, students, sequencing cores, bioinformaticians,
 and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 
-> **Native-shell engineering preview:** the public package uses the new
+> **Native-shell engineering preview:** the release package uses the new
 > webview-free Rust application path in `apps/native-desktop`. It provides local
-> folder selection, background FASTQ/BAM/CRAM discovery, searchable sample-map
-> review, and clinical night/light/high-contrast themes. It does **not** yet
+> encrypted local profiles and projects, background FASTQ/BAM/CRAM discovery,
+> searchable sample-map review, and clinical night/light/high-contrast themes.
+> It does **not** yet
 > calculate validated assay-specific biological QC metrics and must not be used
 > for diagnosis or patient care. The dependency boundary and Windows runtime
 > observation are clean; live macOS and Linux network observation remains a
@@ -16,7 +17,8 @@ and clinical or preclinical teams working with WGS, WES, or bulk RNA-seq data.
 
 ## Download the engineering preview
 
-Download the newest engineering preview and `SHA256SUMS.txt` from
+While the repository is private, signed-in collaborators can download the
+newest engineering preview and `SHA256SUMS.txt` from
 [SeqQC Studio Releases](https://github.com/saikatbib/SeqQC/releases):
 
 - Windows x86-64: download the `Setup` executable for a normal per-user
@@ -35,6 +37,10 @@ macOS and platform-signed packages are not included in this first prerelease.
 
 - Webview-free native portable packages built on Windows, macOS, and Linux by
   the tagged-release workflow.
+- Local passphrase sign-in with a random profile key wrapped by Argon2id and
+  XChaCha20-Poly1305; the passphrase and unwrapped key are never written to disk.
+- Encrypted project create/open/edit/close, a protected recent-project catalog,
+  explicit session lock, and a 15-minute inactivity lock.
 - No application telemetry, updater, remote assets, HTTP client, local browser
   server, or runtime download path in the native shell.
 - Recursive FASTQ/FQ/GZ, BAM, and CRAM discovery in nested folders and network
@@ -48,8 +54,9 @@ macOS and platform-signed packages are not included in this first prerelease.
 - One schema-backed, investigational report exported to standalone HTML, PDF,
   JSON, CSV, and TSV.
 - Cross-platform QC policy with optional alignment restricted to Linux.
-- Security foundations for SQLCipher metadata, random project keys in native
-  credential stores, a single-writer lock, and a chained audit log.
+- Security foundations for SQLCipher metadata, independent random project keys
+  kept inside the encrypted profile vault, a single-writer lock, and a
+  persistent tamper-evident audit chain.
 - Offline job-package contracts for Generic scripts, Slurm, PBS Pro, LSF, and
   SGE.
 
@@ -95,8 +102,8 @@ On the provisioned Windows development host:
 & .\tools\invoke-rust.ps1 run --locked --package seqqc-native-desktop
 ```
 
-This slice discovers and reviews input structure only. It does not yet run
-validated biological QC or persist an encrypted project.
+This slice manages encrypted projects and discovers and reviews input structure.
+It does not yet run validated biological QC.
 
 ## Build the native release binary
 
@@ -129,7 +136,7 @@ validation.
 
 | Path | Purpose |
 | --- | --- |
-| `apps/native-desktop` | Webview-free native Rust production-shell spike |
+| `apps/native-desktop` | Webview-free native Rust production shell |
 | `apps/desktop` | Retained Tauri + React Milestone 0 UX/reference preview |
 | `crates/seqqc-*` | Contracts, discovery, formats, workflow, execution, reporting, and security boundaries |
 | `schemas/v1` | Offline JSON Schema 2020-12 contracts |
@@ -152,19 +159,20 @@ cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
 ```
 
-The repository policies verify eight schemas and examples, all 128 planned
+The repository policies verify nine schemas and examples, all 128 planned
 metric assignments, exact dependency candidates, the Linux-only alignment
 gate, and the desktop offline capability boundary. Synthetic native tests cover
 format truncation, cancellation, scheduler escaping, exporter reconciliation,
-SQLCipher integrity, credential-store boundary validation, writer locking, and
-audit tamper detection. The live Windows Credential Manager round trip is an
-explicit interactive release test because headless runners may have no usable
-credential logon session.
+SQLCipher integrity, Argon2id/XChaCha20-Poly1305 profile-key wrapping, encrypted
+project-key vault behavior, writer locking, audit tamper detection, and
+simulated application-data paths for all three operating systems.
 
-The source-level capability gate passes. The packaged Windows runtime gate does
-not: descendant `msedgewebview2.exe` processes were observed with non-loopback
-HTTPS connections. See the [Milestone 0 status](docs/implementation/milestone-0-status.md)
-and retained [Windows evidence](docs/implementation/evidence/m0-working-preview-windows.md).
+The source-level capability gate and packaged Windows native runtime observation
+pass; no TCP or UDP endpoint was observed in the native process family. Live
+macOS and Linux runtime observation remains a release qualification item. The
+older WebView2 failure is retained as historical evidence. See the
+[Milestone 0 status](docs/implementation/milestone-0-status.md) and retained
+[Windows evidence](docs/implementation/evidence/m0-working-preview-windows.md).
 
 ## Contributing and security
 
@@ -175,5 +183,5 @@ or encrypted project archives to an issue or pull request.
 SeqQC is licensed under [Apache License 2.0](LICENSE). Third-party components
 retain their own licenses; see `THIRD_PARTY_NOTICES.md` and the CycloneDX SBOM.
 
-The intended public repository is
+The private development repository is
 [github.com/saikatbib/SeqQC](https://github.com/saikatbib/SeqQC).

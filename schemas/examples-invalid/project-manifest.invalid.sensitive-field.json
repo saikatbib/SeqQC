@@ -1,0 +1,9 @@
+{
+  "format": "org.seqqc.project",
+  "format_version": "1.0.0",
+  "project_id": "550e8400-e29b-41d4-a716-446655440000",
+  "crypto_profile": "seqqc-project-v1-profile-key-vault",
+  "key_locator": "project-550e8400-e29b-41d4-a716-446655440000",
+  "created_by_app": "0.1.0-alpha.3",
+  "sample_name": "must-not-be-cleartext"
+}

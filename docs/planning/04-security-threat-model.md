@@ -56,7 +56,7 @@ trusted merely because they are local.
 | Threat | Required controls |
 | --- | --- |
 | Internet/data exfiltration | No network-capable runtime features; packaged-only assets; URI rejection; loopback API off by default; network-attempt tests |
-| Unauthorized project access | Local authentication/session; OS key store; encrypted sensitive store; inactivity lock; fail-closed unlock |
+| Unauthorized project access | Local authentication/session; password-wrapped random profile key; encrypted sensitive store; optional OS key store; inactivity lock; fail-closed unlock |
 | Project copied from disk | Encryption at rest for metadata and selected artifacts; portable archive encryption; no cleartext secrets |
 | File/path injection | Argument-vector process launch; canonicalized paths; no shell interpolation; allow-listed task definitions |
 | Malicious archive | Authenticated encryption; size/count limits; safe extraction; traversal/symlink defense; schema checks |
@@ -112,9 +112,11 @@ connection is blocked.
 ### Local principal
 
 Use the authenticated operating-system user as the primary local principal.
-SeqQC may require a local application unlock/password for protected projects,
-but it must not implement an online account. Secret material is stored in the
-OS key store when supported.
+SeqQC requires a local application unlock/password for protected projects, but
+it must not implement an online account. The password wraps a random profile
+key; random project keys are stored only inside the unlocked encrypted profile.
+An OS key store may later provide an optional convenience path where supported,
+but it is not required because offline compute nodes may not expose one.
 
 ### Roles
 
@@ -214,4 +216,3 @@ bounded non-sensitive detail. Administrators can verify and export the chain.
 - Verified least-privilege installer/runtime behavior
 - Recovery, key loss, backup/restore, lock, and audit verification tests
 - Documented residual risks and administrator hardening guide
-

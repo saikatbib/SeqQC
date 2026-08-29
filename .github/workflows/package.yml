@@ -103,6 +103,8 @@ jobs:
           cp apps/desktop/src-tauri/icons/icon.icns "${app_dir}/Contents/Resources/SeqQCStudio.icns"
           cp LICENSE packaging/PORTABLE_PACKAGE_README.txt "${package_dir}/"
           ditto -c -k --sequesterRsrc --keepParent "${package_dir}" "dist/${package_name}.zip"
+          ln -s /Applications "${package_dir}/Applications"
+          hdiutil create -volname "SeqQC Studio" -srcfolder "${package_dir}" -ov -format UDZO "dist/${package_name}.dmg"
       - name: Assemble Linux portable package
         if: runner.os == 'Linux'
         shell: bash
@@ -120,6 +122,7 @@ jobs:
           name: seqqc-release-${{ matrix.artifact }}
           path: |
             dist/*.exe
+            dist/*.dmg
             dist/*.zip
             dist/*.tar.gz
           if-no-files-found: error

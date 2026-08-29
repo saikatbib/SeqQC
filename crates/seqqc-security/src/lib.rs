@@ -9,12 +9,23 @@ use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+use argon2::{Algorithm, Argon2, Params, Version};
+use chacha20poly1305::{
+    KeyInit, XChaCha20Poly1305, XNonce,
+    aead::{Aead, Payload},
+};
 use rusqlite::{Connection, OpenFlags, OptionalExtension, params};
 use sha2::{Digest, Sha256};
 use zeroize::{Zeroize, Zeroizing};
 
-const SCHEMA_VERSION: i64 = 1;
+const SCHEMA_VERSION: i64 = 3;
 const PROJECT_KEY_BYTES: usize = 32;
+const PROFILE_SALT_BYTES: usize = 16;
+const XCHACHA_NONCE_BYTES: usize = 24;
+const ARGON2_MEMORY_KIB: u32 = 65_536;
+const ARGON2_ITERATIONS: u32 = 3;
+const ARGON2_LANES: u32 = 1;
+const PROFILE_KEY_AAD: &[u8] = b"org.seqqc.profile-key.v1";
 const LOCK_FILE_NAME: &str = "writer.lock";
 
 /// Random database secret owned by the application and zeroized on drop.
@@ -57,6 +68,153 @@ impl fmt::Debug for ProjectKey {
 impl Drop for ProjectKey {
     fn drop(&mut self) {
         self.0.zeroize();
+    }
+}
+
+/// Versioned password-wrapped key material suitable for a non-sensitive outer
+/// profile envelope. The salt and nonce are public; ciphertext is authenticated.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct PasswordKeyEnvelope {
+    pub format: String,
+    pub kdf: String,
+    pub memory_kib: u32,
+    pub iterations: u32,
+    pub lanes: u32,
+    pub salt_hex: String,
+    pub cipher: String,
+    pub nonce_hex: String,
+    pub ciphertext_hex: String,
+}
+
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+pub enum KeyEnvelopeError {
+    EmptyPassphrase,
+    RandomSourceUnavailable,
+    InvalidEnvelope,
+    DerivationFailed,
+    AuthenticationFailed,
+}
+
+impl fmt::Display for KeyEnvelopeError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::EmptyPassphrase => formatter.write_str("local passphrase cannot be empty"),
+            Self::RandomSourceUnavailable => {
+                formatter.write_str("operating system random source is unavailable")
+            }
+            Self::InvalidEnvelope => formatter.write_str("profile key envelope is invalid"),
+            Self::DerivationFailed => formatter.write_str("profile key derivation failed"),
+            Self::AuthenticationFailed => formatter
+                .write_str("profile key could not be unlocked with the supplied local passphrase"),
+        }
+    }
+}
+
+impl std::error::Error for KeyEnvelopeError {}
+
+impl ProjectKey {
+    /// Wraps a random key using Argon2id-derived key material and
+    /// XChaCha20-Poly1305 authenticated encryption.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error for an empty passphrase, unavailable OS randomness,
+    /// failed key derivation, or authenticated-encryption failure.
+    pub fn wrap_with_passphrase(
+        &self,
+        passphrase: &str,
+    ) -> Result<PasswordKeyEnvelope, KeyEnvelopeError> {
+        if passphrase.is_empty() {
+            return Err(KeyEnvelopeError::EmptyPassphrase);
+        }
+        let mut salt = [0_u8; PROFILE_SALT_BYTES];
+        let mut nonce = [0_u8; XCHACHA_NONCE_BYTES];
+        getrandom::fill(&mut salt)
+            .and_then(|()| getrandom::fill(&mut nonce))
+            .map_err(|_| KeyEnvelopeError::RandomSourceUnavailable)?;
+        let mut wrapping_key = Zeroizing::new([0_u8; PROJECT_KEY_BYTES]);
+        derive_wrapping_key(passphrase, &salt, &mut wrapping_key)?;
+        let cipher = XChaCha20Poly1305::new_from_slice(wrapping_key.as_ref())
+            .map_err(|_| KeyEnvelopeError::DerivationFailed)?;
+        let nonce =
+            XNonce::try_from(nonce.as_slice()).map_err(|_| KeyEnvelopeError::InvalidEnvelope)?;
+        let ciphertext = cipher
+            .encrypt(
+                &nonce,
+                Payload {
+                    msg: self.as_bytes(),
+                    aad: PROFILE_KEY_AAD,
+                },
+            )
+            .map_err(|_| KeyEnvelopeError::AuthenticationFailed)?;
+        Ok(PasswordKeyEnvelope {
+            format: "org.seqqc.password-wrapped-key.v1".to_owned(),
+            kdf: "argon2id-v19".to_owned(),
+            memory_kib: ARGON2_MEMORY_KIB,
+            iterations: ARGON2_ITERATIONS,
+            lanes: ARGON2_LANES,
+            salt_hex: hex::encode(salt),
+            cipher: "xchacha20-poly1305".to_owned(),
+            nonce_hex: hex::encode(nonce),
+            ciphertext_hex: hex::encode(ciphertext),
+        })
+    }
+
+    /// Unwraps a key after strictly validating the supported cryptographic
+    /// profile. Authentication errors deliberately do not distinguish a wrong
+    /// passphrase from a modified envelope.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error for an unsupported or malformed envelope, empty or
+    /// incorrect passphrase, failed derivation, or failed authentication.
+    pub fn unwrap_with_passphrase(
+        envelope: &PasswordKeyEnvelope,
+        passphrase: &str,
+    ) -> Result<Self, KeyEnvelopeError> {
+        if passphrase.is_empty() {
+            return Err(KeyEnvelopeError::EmptyPassphrase);
+        }
+        if envelope.format != "org.seqqc.password-wrapped-key.v1"
+            || envelope.kdf != "argon2id-v19"
+            || envelope.memory_kib != ARGON2_MEMORY_KIB
+            || envelope.iterations != ARGON2_ITERATIONS
+            || envelope.lanes != ARGON2_LANES
+            || envelope.cipher != "xchacha20-poly1305"
+        {
+            return Err(KeyEnvelopeError::InvalidEnvelope);
+        }
+        let salt =
+            hex::decode(&envelope.salt_hex).map_err(|_| KeyEnvelopeError::InvalidEnvelope)?;
+        let nonce =
+            hex::decode(&envelope.nonce_hex).map_err(|_| KeyEnvelopeError::InvalidEnvelope)?;
+        let ciphertext = Zeroizing::new(
+            hex::decode(&envelope.ciphertext_hex).map_err(|_| KeyEnvelopeError::InvalidEnvelope)?,
+        );
+        if salt.len() != PROFILE_SALT_BYTES
+            || nonce.len() != XCHACHA_NONCE_BYTES
+            || ciphertext.len() != PROJECT_KEY_BYTES + 16
+        {
+            return Err(KeyEnvelopeError::InvalidEnvelope);
+        }
+        let mut wrapping_key = Zeroizing::new([0_u8; PROJECT_KEY_BYTES]);
+        derive_wrapping_key(passphrase, &salt, &mut wrapping_key)?;
+        let cipher = XChaCha20Poly1305::new_from_slice(wrapping_key.as_ref())
+            .map_err(|_| KeyEnvelopeError::DerivationFailed)?;
+        let nonce =
+            XNonce::try_from(nonce.as_slice()).map_err(|_| KeyEnvelopeError::InvalidEnvelope)?;
+        let plaintext = Zeroizing::new(
+            cipher
+                .decrypt(
+                    &nonce,
+                    Payload {
+                        msg: ciphertext.as_ref(),
+                        aad: PROFILE_KEY_AAD,
+                    },
+                )
+                .map_err(|_| KeyEnvelopeError::AuthenticationFailed)?,
+        );
+        Self::from_secret(&plaintext).map_err(|_| KeyEnvelopeError::AuthenticationFailed)
     }
 }
 
@@ -350,6 +508,19 @@ pub struct CipherInfo {
     pub active: bool,
 }
 
+/// One append-only audit event persisted inside an encrypted store.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct StoredAuditEvent {
+    pub sequence: u64,
+    pub occurred_unix_millis: u128,
+    pub actor_id: String,
+    pub action: String,
+    pub outcome: String,
+    pub details: String,
+    pub previous_digest: String,
+    pub digest: String,
+}
+
 /// An application-owned handle to one encrypted, single-user project store.
 pub struct EncryptedProjectStore {
     connection: Connection,
@@ -376,6 +547,7 @@ pub enum StoreError {
     EmptyPassphrase,
     UnlockFailed,
     CipherUnavailable,
+    UnsupportedSchema(i64),
     IntegrityCheckFailed(Vec<String>),
     Database(rusqlite::Error),
 }
@@ -402,6 +574,12 @@ impl fmt::Display for StoreError {
                 .write_str("project store could not be unlocked with the supplied credentials"),
             Self::CipherUnavailable => {
                 formatter.write_str("the database connection is not protected by SQLCipher")
+            }
+            Self::UnsupportedSchema(version) => {
+                write!(
+                    formatter,
+                    "encrypted store schema version {version} is unsupported"
+                )
             }
             Self::IntegrityCheckFailed(messages) => write!(
                 formatter,
@@ -496,7 +674,9 @@ impl EncryptedProjectStore {
         }
 
         let connection = Connection::open_with_flags(&path, OpenFlags::SQLITE_OPEN_READ_WRITE)?;
-        Self::unlock(connection, &path, passphrase)
+        let mut store = Self::unlock(connection, &path, passphrase)?;
+        store.migrate_schema()?;
+        Ok(store)
     }
 
     #[must_use]
@@ -553,6 +733,69 @@ impl EncryptedProjectStore {
             .map_err(StoreError::from)
     }
 
+    /// Stores or replaces one random project key inside this encrypted store.
+    /// This is used by the encrypted local profile as a project-key vault.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error for an invalid locator or failed encrypted transaction.
+    pub fn store_project_key(
+        &mut self,
+        key_locator: &str,
+        key: &ProjectKey,
+    ) -> Result<(), StoreError> {
+        validate_project_id(key_locator).map_err(|_| {
+            StoreError::Database(rusqlite::Error::InvalidParameterName(
+                "invalid protected key locator".to_owned(),
+            ))
+        })?;
+        self.connection.execute(
+            "INSERT INTO protected_keys (key_locator, key_material)
+             VALUES (?1, ?2)
+             ON CONFLICT(key_locator) DO UPDATE SET key_material = excluded.key_material",
+            params![key_locator, key.as_bytes()],
+        )?;
+        Ok(())
+    }
+
+    /// Loads a random project key from this encrypted profile vault.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the locator is invalid, absent, corrupt, or the
+    /// encrypted query fails.
+    pub fn project_key(&self, key_locator: &str) -> Result<ProjectKey, StoreError> {
+        validate_project_id(key_locator).map_err(|_| {
+            StoreError::Database(rusqlite::Error::InvalidParameterName(
+                "invalid protected key locator".to_owned(),
+            ))
+        })?;
+        let mut secret = self
+            .connection
+            .query_row(
+                "SELECT key_material FROM protected_keys WHERE key_locator = ?1",
+                [key_locator],
+                |row| row.get::<_, Vec<u8>>(0),
+            )
+            .map_err(|_| StoreError::UnlockFailed)?;
+        let result = ProjectKey::from_secret(&secret).map_err(|_| StoreError::UnlockFailed);
+        secret.zeroize();
+        result
+    }
+
+    /// Removes a project key from this encrypted profile vault.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the encrypted delete cannot be completed.
+    pub fn delete_project_key(&mut self, key_locator: &str) -> Result<(), StoreError> {
+        self.connection.execute(
+            "DELETE FROM protected_keys WHERE key_locator = ?1",
+            [key_locator],
+        )?;
+        Ok(())
+    }
+
     /// Runs `SQLCipher`'s page-HMAC integrity check. A successful check returns
     /// no findings.
     ///
@@ -581,6 +824,131 @@ impl EncryptedProjectStore {
         self.connection
             .query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |_| Ok(()))?;
         Ok(())
+    }
+
+    /// Appends a tamper-evident audit event in one encrypted transaction.
+    /// Actor IDs and details must already be bounded, non-secret identifiers.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the prior event cannot be read or the new event
+    /// cannot be committed atomically.
+    pub fn append_audit_event(
+        &mut self,
+        actor_id: &str,
+        action: &str,
+        outcome: &str,
+        details: &str,
+    ) -> Result<StoredAuditEvent, StoreError> {
+        let transaction = self.connection.transaction()?;
+        let previous = transaction
+            .query_row(
+                "SELECT sequence, digest FROM audit_events ORDER BY sequence DESC LIMIT 1",
+                [],
+                |row| Ok((row.get::<_, i64>(0)?, row.get::<_, String>(1)?)),
+            )
+            .optional()?;
+        let (sequence, previous_digest) = previous.map_or_else(
+            || (0_i64, "0".repeat(64)),
+            |(sequence, digest)| (sequence.saturating_add(1), digest),
+        );
+        let occurred_unix_millis = i64::try_from(unix_millis()).unwrap_or(i64::MAX);
+        let digest = stored_audit_digest(
+            sequence,
+            occurred_unix_millis,
+            &previous_digest,
+            actor_id,
+            action,
+            outcome,
+            details,
+        );
+        transaction.execute(
+            "INSERT INTO audit_events (
+                 sequence, occurred_unix_millis, actor_id, action, outcome, details,
+                 previous_digest, digest
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            params![
+                sequence,
+                occurred_unix_millis,
+                actor_id,
+                action,
+                outcome,
+                details,
+                previous_digest,
+                digest
+            ],
+        )?;
+        transaction.commit()?;
+        Ok(StoredAuditEvent {
+            sequence: u64::try_from(sequence).unwrap_or(u64::MAX),
+            occurred_unix_millis: u128::try_from(occurred_unix_millis).unwrap_or_default(),
+            actor_id: actor_id.to_owned(),
+            action: action.to_owned(),
+            outcome: outcome.to_owned(),
+            details: details.to_owned(),
+            previous_digest,
+            digest,
+        })
+    }
+
+    /// Returns the encrypted store's audit chain in sequence order.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when an audit row cannot be queried or decoded.
+    pub fn audit_events(&self) -> Result<Vec<StoredAuditEvent>, StoreError> {
+        let mut statement = self.connection.prepare(
+            "SELECT sequence, occurred_unix_millis, actor_id, action, outcome, details,
+                    previous_digest, digest
+             FROM audit_events ORDER BY sequence",
+        )?;
+        statement
+            .query_map([], |row| {
+                let sequence = row.get::<_, i64>(0)?;
+                let occurred = row.get::<_, i64>(1)?;
+                Ok(StoredAuditEvent {
+                    sequence: u64::try_from(sequence).unwrap_or(u64::MAX),
+                    occurred_unix_millis: u128::try_from(occurred).unwrap_or_default(),
+                    actor_id: row.get(2)?,
+                    action: row.get(3)?,
+                    outcome: row.get(4)?,
+                    details: row.get(5)?,
+                    previous_digest: row.get(6)?,
+                    digest: row.get(7)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(StoreError::from)
+    }
+
+    /// Verifies every digest and link in the persisted audit chain.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the encrypted audit events cannot be read.
+    pub fn verify_audit_events(&self) -> Result<bool, StoreError> {
+        let events = self.audit_events()?;
+        let mut previous = "0".repeat(64);
+        for event in events {
+            let sequence = i64::try_from(event.sequence).unwrap_or(i64::MAX);
+            let occurred = i64::try_from(event.occurred_unix_millis).unwrap_or(i64::MAX);
+            if event.previous_digest != previous
+                || event.digest
+                    != stored_audit_digest(
+                        sequence,
+                        occurred,
+                        &previous,
+                        &event.actor_id,
+                        &event.action,
+                        &event.outcome,
+                        &event.details,
+                    )
+            {
+                return Ok(false);
+            }
+            previous = event.digest;
+        }
+        Ok(true)
     }
 
     fn unlock(connection: Connection, path: &Path, passphrase: &str) -> Result<Self, StoreError> {
@@ -656,6 +1024,20 @@ impl EncryptedProjectStore {
              CREATE TABLE schema_information (\
                  singleton INTEGER PRIMARY KEY CHECK (singleton = 1),\
                  schema_version INTEGER NOT NULL CHECK (schema_version > 0)\
+             ) STRICT;\
+             CREATE TABLE audit_events (\
+                 sequence INTEGER PRIMARY KEY CHECK (sequence >= 0),\
+                 occurred_unix_millis INTEGER NOT NULL CHECK (occurred_unix_millis >= 0),\
+                 actor_id TEXT NOT NULL CHECK (length(actor_id) > 0),\
+                 action TEXT NOT NULL CHECK (length(action) > 0),\
+                 outcome TEXT NOT NULL CHECK (length(outcome) > 0),\
+                 details TEXT NOT NULL,\
+                 previous_digest TEXT NOT NULL CHECK (length(previous_digest) = 64),\
+                 digest TEXT NOT NULL CHECK (length(digest) = 64)\
+             ) STRICT;\
+             CREATE TABLE protected_keys (\
+                 key_locator TEXT PRIMARY KEY CHECK (length(key_locator) > 0),\
+                 key_material BLOB NOT NULL CHECK (length(key_material) = 32)\
              ) STRICT;",
         )?;
         transaction.execute(
@@ -665,6 +1047,52 @@ impl EncryptedProjectStore {
         transaction.commit()?;
         Ok(())
     }
+
+    fn migrate_schema(&mut self) -> Result<(), StoreError> {
+        let version = self.connection.query_row(
+            "SELECT schema_version FROM schema_information WHERE singleton = 1",
+            [],
+            |row| row.get::<_, i64>(0),
+        )?;
+        match version {
+            SCHEMA_VERSION => Ok(()),
+            1 => {
+                let transaction = self.connection.transaction()?;
+                transaction.execute_batch(
+                    "CREATE TABLE audit_events (\
+                         sequence INTEGER PRIMARY KEY CHECK (sequence >= 0),\
+                         occurred_unix_millis INTEGER NOT NULL CHECK (occurred_unix_millis >= 0),\
+                         actor_id TEXT NOT NULL CHECK (length(actor_id) > 0),\
+                         action TEXT NOT NULL CHECK (length(action) > 0),\
+                         outcome TEXT NOT NULL CHECK (length(outcome) > 0),\
+                         details TEXT NOT NULL,\
+                         previous_digest TEXT NOT NULL CHECK (length(previous_digest) = 64),\
+                         digest TEXT NOT NULL CHECK (length(digest) = 64)\
+                     ) STRICT;\
+                     CREATE TABLE protected_keys (\
+                         key_locator TEXT PRIMARY KEY CHECK (length(key_locator) > 0),\
+                         key_material BLOB NOT NULL CHECK (length(key_material) = 32)\
+                     ) STRICT;\
+                     UPDATE schema_information SET schema_version = 3 WHERE singleton = 1;",
+                )?;
+                transaction.commit()?;
+                Ok(())
+            }
+            2 => {
+                let transaction = self.connection.transaction()?;
+                transaction.execute_batch(
+                    "CREATE TABLE protected_keys (\
+                         key_locator TEXT PRIMARY KEY CHECK (length(key_locator) > 0),\
+                         key_material BLOB NOT NULL CHECK (length(key_material) = 32)\
+                     ) STRICT;\
+                     UPDATE schema_information SET schema_version = 3 WHERE singleton = 1;",
+                )?;
+                transaction.commit()?;
+                Ok(())
+            }
+            unsupported => Err(StoreError::UnsupportedSchema(unsupported)),
+        }
+    }
 }
 
 fn validate_passphrase(passphrase: &str) -> Result<(), StoreError> {
@@ -673,6 +1101,23 @@ fn validate_passphrase(passphrase: &str) -> Result<(), StoreError> {
     } else {
         Ok(())
     }
+}
+
+fn derive_wrapping_key(
+    passphrase: &str,
+    salt: &[u8],
+    output: &mut [u8; PROJECT_KEY_BYTES],
+) -> Result<(), KeyEnvelopeError> {
+    let params = Params::new(
+        ARGON2_MEMORY_KIB,
+        ARGON2_ITERATIONS,
+        ARGON2_LANES,
+        Some(PROJECT_KEY_BYTES),
+    )
+    .map_err(|_| KeyEnvelopeError::DerivationFailed)?;
+    Argon2::new(Algorithm::Argon2id, Version::V0x13, params)
+        .hash_password_into(passphrase.as_bytes(), salt, output)
+        .map_err(|_| KeyEnvelopeError::DerivationFailed)
 }
 
 fn validate_project_id(project_id: &str) -> Result<(), KeyStoreError> {
@@ -733,5 +1178,24 @@ fn audit_digest(sequence: u64, previous_digest: &str, event: &str) -> String {
     hasher.update(previous_digest.as_bytes());
     hasher.update(event.len().to_be_bytes());
     hasher.update(event.as_bytes());
+    hex::encode(hasher.finalize())
+}
+
+fn stored_audit_digest(
+    sequence: i64,
+    occurred_unix_millis: i64,
+    previous_digest: &str,
+    actor_id: &str,
+    action: &str,
+    outcome: &str,
+    details: &str,
+) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(sequence.to_be_bytes());
+    hasher.update(occurred_unix_millis.to_be_bytes());
+    for value in [previous_digest, actor_id, action, outcome, details] {
+        hasher.update(value.len().to_be_bytes());
+        hasher.update(value.as_bytes());
+    }
     hex::encode(hasher.finalize())
 }

@@ -1,21 +1,21 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:09f933a3-3ac4-4e2a-86d1-b00145518696",
+  "serialNumber": "urn:uuid:e989fc12-d229-40e7-bfcc-612e63f50d04",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-08-28T04:53:16.026Z",
+    "timestamp": "2026-08-28T15:12:51.246Z",
     "component": {
       "type": "application",
-      "bom-ref": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.2",
+      "bom-ref": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.3",
       "name": "SeqQC Studio",
-      "version": "0.1.0-alpha.2",
+      "version": "0.1.0-alpha.3",
       "licenses": [
         {
           "expression": "Apache-2.0"
         }
       ],
-      "purl": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.2"
+      "purl": "pkg:github/saikatbib/SeqQC@0.1.0-alpha.3"
     },
     "properties": [
       {
@@ -101,6 +101,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/aead@0.6.1",
+      "name": "aead",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/aead@0.6.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/aes@0.8.4",
       "name": "aes",
       "version": "0.8.4",
@@ -175,6 +182,18 @@
       "name": "arboard",
       "version": "3.6.1",
       "purl": "pkg:cargo/arboard@3.6.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/argon2@0.5.3",
+      "name": "argon2",
+      "version": "0.5.3",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "purl": "pkg:cargo/argon2@0.5.3"
     },
     {
       "type": "library",
@@ -325,6 +344,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/base64ct@1.8.3",
+      "name": "base64ct",
+      "version": "1.8.3",
+      "purl": "pkg:cargo/base64ct@1.8.3"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/bit-set@0.10.0",
       "name": "bit-set",
       "version": "0.10.0",
@@ -371,6 +397,13 @@
       "name": "bitflags",
       "version": "2.13.1",
       "purl": "pkg:cargo/bitflags@2.13.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/blake2@0.10.6",
+      "name": "blake2",
+      "version": "0.10.6",
+      "purl": "pkg:cargo/blake2@0.10.6"
     },
     {
       "type": "library",
@@ -633,6 +666,25 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/chacha20@0.10.2",
+      "name": "chacha20",
+      "version": "0.10.2",
+      "purl": "pkg:cargo/chacha20@0.10.2"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/chacha20poly1305@0.11.0",
+      "name": "chacha20poly1305",
+      "version": "0.11.0",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "purl": "pkg:cargo/chacha20poly1305@0.11.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/chrono@0.4.45",
       "name": "chrono",
       "version": "0.4.45",
@@ -647,10 +699,24 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/cipher@0.5.2",
+      "name": "cipher",
+      "version": "0.5.2",
+      "purl": "pkg:cargo/cipher@0.5.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/clipboard-win@5.4.1",
       "name": "clipboard-win",
       "version": "5.4.1",
       "purl": "pkg:cargo/clipboard-win@5.4.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/cmov@0.5.4",
+      "name": "cmov",
+      "version": "0.5.4",
+      "purl": "pkg:cargo/cmov@0.5.4"
     },
     {
       "type": "library",
@@ -840,6 +906,13 @@
       "name": "ctor",
       "version": "0.8.0",
       "purl": "pkg:cargo/ctor@0.8.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/ctutils@0.4.2",
+      "name": "ctutils",
+      "version": "0.4.2",
+      "purl": "pkg:cargo/ctutils@0.4.2"
     },
     {
       "type": "library",
@@ -1897,6 +1970,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/inout@0.2.2",
+      "name": "inout",
+      "version": "0.2.2",
+      "purl": "pkg:cargo/inout@0.2.2"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/ipnet@2.12.1",
       "name": "ipnet",
       "version": "2.12.1",
@@ -2810,6 +2890,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/password-hash@0.5.0",
+      "name": "password-hash",
+      "version": "0.5.0",
+      "purl": "pkg:cargo/password-hash@0.5.0"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/peniko@0.6.1",
       "name": "peniko",
       "version": "0.6.1",
@@ -2933,6 +3020,13 @@
       "name": "pollster",
       "version": "0.4.0",
       "purl": "pkg:cargo/pollster@0.4.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/poly1305@0.9.1",
+      "name": "poly1305",
+      "version": "0.9.1",
+      "purl": "pkg:cargo/poly1305@0.9.1"
     },
     {
       "type": "library",
@@ -3066,6 +3160,20 @@
       "name": "r-efi",
       "version": "6.0.0",
       "purl": "pkg:cargo/r-efi@6.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/rand_core@0.10.1",
+      "name": "rand_core",
+      "version": "0.10.1",
+      "purl": "pkg:cargo/rand_core@0.10.1"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/rand_core@0.6.4",
+      "name": "rand_core",
+      "version": "0.6.4",
+      "purl": "pkg:cargo/rand_core@0.6.4"
     },
     {
       "type": "library",
@@ -3350,66 +3458,73 @@
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-contracts@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-contracts@0.1.0-alpha.3",
       "name": "seqqc-contracts",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-contracts@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-contracts@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-desktop@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-desktop@0.1.0-alpha.3",
       "name": "seqqc-desktop",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-desktop@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-desktop@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-discovery@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-discovery@0.1.0-alpha.3",
       "name": "seqqc-discovery",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-discovery@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-discovery@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-engine@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-engine@0.1.0-alpha.3",
       "name": "seqqc-engine",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-engine@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-engine@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-execution@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-execution@0.1.0-alpha.3",
       "name": "seqqc-execution",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-execution@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-execution@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-formats@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-formats@0.1.0-alpha.3",
       "name": "seqqc-formats",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-formats@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-formats@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.3",
       "name": "seqqc-native-desktop",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-native-desktop@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-reporting@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-projects@0.1.0-alpha.3",
+      "name": "seqqc-projects",
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-projects@0.1.0-alpha.3"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:cargo/seqqc-reporting@0.1.0-alpha.3",
       "name": "seqqc-reporting",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-reporting@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-reporting@0.1.0-alpha.3"
     },
     {
       "type": "library",
-      "bom-ref": "pkg:cargo/seqqc-security@0.1.0-alpha.2",
+      "bom-ref": "pkg:cargo/seqqc-security@0.1.0-alpha.3",
       "name": "seqqc-security",
-      "version": "0.1.0-alpha.2",
-      "purl": "pkg:cargo/seqqc-security@0.1.0-alpha.2"
+      "version": "0.1.0-alpha.3",
+      "purl": "pkg:cargo/seqqc-security@0.1.0-alpha.3"
     },
     {
       "type": "library",
@@ -3486,6 +3601,11 @@
       "bom-ref": "pkg:cargo/serde@1.0.229",
       "name": "serde",
       "version": "1.0.229",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
       "purl": "pkg:cargo/serde@1.0.229"
     },
     {
@@ -4208,6 +4328,13 @@
     },
     {
       "type": "library",
+      "bom-ref": "pkg:cargo/universal-hash@0.6.1",
+      "name": "universal-hash",
+      "version": "0.6.1",
+      "purl": "pkg:cargo/universal-hash@0.6.1"
+    },
+    {
+      "type": "library",
       "bom-ref": "pkg:cargo/url@2.5.8",
       "name": "url",
       "version": "2.5.8",
@@ -4232,6 +4359,11 @@
       "bom-ref": "pkg:cargo/uuid@1.25.0",
       "name": "uuid",
       "version": "1.25.0",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
       "purl": "pkg:cargo/uuid@1.25.0"
     },
     {

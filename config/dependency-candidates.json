@@ -92,6 +92,36 @@
       "source": "https://github.com/time-rs/time"
     },
     {
+      "id": "serde",
+      "role": "versioned_project_manifest_serialization",
+      "decision": "accepted_and_exact_pinned_behind_project_lifecycle_facade",
+      "exact_version": "1.0.229",
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/serde-rs/serde"
+    },
+    {
+      "id": "serde-json",
+      "role": "versioned_project_manifest_json",
+      "decision": "accepted_and_exact_pinned_behind_project_lifecycle_facade",
+      "exact_version": "1.0.151",
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/serde-rs/json"
+    },
+    {
+      "id": "uuid",
+      "role": "opaque_project_and_local_principal_identifiers",
+      "decision": "accepted_and_exact_pinned_with_os_random_v4_identifiers",
+      "exact_version": "1.25.0",
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/uuid-rs/uuid"
+    },
+    {
       "id": "noodles",
       "role": "native_format_io_candidate",
       "decision": "pinned_behind_facade_for_milestone_0_evaluation",
@@ -122,6 +152,28 @@
       "platforms": ["windows", "macos", "linux"],
       "runtime_network_required": false,
       "source": "https://github.com/rusqlite/rusqlite"
+    },
+    {
+      "id": "argon2",
+      "role": "memory_hard_local_profile_key_wrapping_kdf",
+      "decision": "accepted_and_exact_pinned_for_engineering_preview_pending_independent_crypto_review",
+      "exact_version": "0.5.3",
+      "profile": "Argon2id v19; 65536 KiB; 3 iterations; 1 lane; 32-byte output",
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/RustCrypto/password-hashes"
+    },
+    {
+      "id": "chacha20poly1305",
+      "role": "authenticated_local_profile_key_wrapping",
+      "decision": "accepted_and_exact_pinned_for_engineering_preview_pending_independent_crypto_review",
+      "exact_version": "0.11.0",
+      "algorithm": "XChaCha20-Poly1305 with random 192-bit nonce",
+      "license_signal": "MIT OR Apache-2.0",
+      "platforms": ["windows", "macos", "linux"],
+      "runtime_network_required": false,
+      "source": "https://github.com/RustCrypto/AEADs"
     },
     {
       "id": "sqlcipher",

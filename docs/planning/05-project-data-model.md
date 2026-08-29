@@ -47,8 +47,8 @@ clinical context.
   "format": "org.seqqc.project",
   "format_version": "1.0.0",
   "project_id": "uuid",
-  "crypto_profile": "seqqc-project-v1",
-  "key_locator": "opaque-os-key-id",
+  "crypto_profile": "seqqc-project-v1-profile-key-vault",
+  "key_locator": "opaque-project-key-id",
   "created_by_app": "1.0.0"
 }
 ```
@@ -220,4 +220,3 @@ review.
 - Unknown enum values must not be reinterpreted silently.
 - A newer unsupported schema opens read-only if safe, otherwise fails with a
   precise compatibility message.
-

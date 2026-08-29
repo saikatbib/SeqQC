@@ -164,6 +164,33 @@ fn create_never_overwrites_and_empty_passphrases_are_rejected() {
     ));
 }
 
+#[test]
+fn persisted_audit_chain_survives_reopen_and_verifies() {
+    let directory = TestDirectory::create();
+    let path = directory.database_path();
+    let mut store = EncryptedProjectStore::create(&path, PASSPHRASE).expect("create store");
+    let first = store
+        .append_audit_event("principal-1", "project.created", "success", "")
+        .expect("append first event");
+    let second = store
+        .append_audit_event("principal-1", "project.opened", "success", "")
+        .expect("append second event");
+    assert_eq!(first.sequence, 0);
+    assert_eq!(second.sequence, 1);
+    assert_eq!(second.previous_digest, first.digest);
+    assert!(store.verify_audit_events().expect("verify live chain"));
+    drop(store);
+
+    let reopened = EncryptedProjectStore::open(&path, PASSPHRASE).expect("reopen store");
+    let events = reopened.audit_events().expect("load audit events");
+    assert_eq!(events.len(), 2);
+    assert!(
+        reopened
+            .verify_audit_events()
+            .expect("verify reopened chain")
+    );
+}
+
 fn assert_no_plaintext_in_database_family(database_path: &Path, secrets: &[&str]) {
     let file_name = database_path
         .file_name()

@@ -1,3 +1,5 @@
+#![allow(linker_messages)]
+
 use std::fs;
 use std::path::PathBuf;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -106,6 +108,56 @@ fn native_key_store_rejects_invalid_project_identifiers_before_platform_access()
     assert!(key_store.store("", &key).is_err());
     assert!(key_store.store("contains/slash", &key).is_err());
     assert!(key_store.store(&"a".repeat(129), &key).is_err());
+}
+
+#[test]
+fn password_envelope_wraps_random_key_and_rejects_wrong_password_or_tampering() {
+    let key = ProjectKey::generate().expect("generate profile key");
+    let mut envelope = key
+        .wrap_with_passphrase("correct horse battery staple")
+        .expect("wrap profile key");
+    let unwrapped = ProjectKey::unwrap_with_passphrase(&envelope, "correct horse battery staple")
+        .expect("unwrap profile key");
+
+    let directory = TestDirectory::create("password-envelope");
+    let path = directory.0.join("profile.db");
+    drop(
+        EncryptedProjectStore::create_with_project_key(&path, &key)
+            .expect("create with original key"),
+    );
+    EncryptedProjectStore::open_with_project_key(&path, &unwrapped)
+        .expect("unwrapped key must unlock store");
+    assert!(ProjectKey::unwrap_with_passphrase(&envelope, "wrong local password").is_err());
+
+    envelope.ciphertext_hex.replace_range(0..2, "00");
+    assert!(ProjectKey::unwrap_with_passphrase(&envelope, "correct horse battery staple").is_err());
+}
+
+#[test]
+fn encrypted_profile_store_round_trips_project_keys() {
+    let directory = TestDirectory::create("profile-key-vault");
+    let profile_path = directory.0.join("profile.db");
+    let profile_key = ProjectKey::generate().expect("generate profile key");
+    let mut profile = EncryptedProjectStore::create_with_project_key(&profile_path, &profile_key)
+        .expect("create encrypted profile");
+    let project_key = ProjectKey::generate().expect("generate project key");
+    profile
+        .store_project_key("project-test-1", &project_key)
+        .expect("store project key");
+    let loaded = profile
+        .project_key("project-test-1")
+        .expect("load project key");
+    let project_path = directory.0.join("project.db");
+    drop(
+        EncryptedProjectStore::create_with_project_key(&project_path, &loaded)
+            .expect("create project with loaded key"),
+    );
+    EncryptedProjectStore::open_with_project_key(&project_path, &project_key)
+        .expect("original key must match loaded key");
+    profile
+        .delete_project_key("project-test-1")
+        .expect("delete project key");
+    assert!(profile.project_key("project-test-1").is_err());
 }
 
 struct TestDirectory(PathBuf);

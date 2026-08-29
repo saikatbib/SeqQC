@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.seqqc.org/v1/project-manifest.schema.json",
+  "title": "SeqQC project outer manifest",
+  "description": "Non-sensitive information required to recognize and unlock an encrypted local project.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "format_version",
+    "project_id",
+    "crypto_profile",
+    "key_locator",
+    "created_by_app"
+  ],
+  "properties": {
+    "format": { "const": "org.seqqc.project" },
+    "format_version": { "const": "1.0.0" },
+    "project_id": { "$ref": "common.schema.json#/$defs/uuid" },
+    "crypto_profile": {
+      "enum": [
+        "seqqc-project-v1-profile-key-vault",
+        "seqqc-project-v1-os-key-store"
+      ]
+    },
+    "key_locator": {
+      "type": "string",
+      "pattern": "^project-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "created_by_app": { "type": "string", "minLength": 1, "maxLength": 64 }
+  }
+}

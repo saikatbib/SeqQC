@@ -543,7 +543,7 @@ mod tests {
         assert!(policy.offline_only);
         assert!(!policy.local_api_enabled);
         assert_eq!(policy.alignment_platform, "linux");
-        assert_eq!(policy.supported_contracts, 8);
+        assert_eq!(policy.supported_contracts, 9);
     }
 
     #[test]

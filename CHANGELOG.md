@@ -3,6 +3,29 @@
 All notable changes are documented here. The project follows Semantic
 Versioning while pre-release interfaces may still change.
 
+## 0.1.0-alpha.3 - 2026-08-28
+
+### Added
+
+- Cross-platform encrypted local profile sign-in with explicit and 15-minute
+  inactivity locking.
+- Argon2id + XChaCha20-Poly1305 wrapping of a random profile key; human
+  passphrases are never project database keys.
+- Independent random project keys stored inside the SQLCipher-encrypted profile
+  vault.
+- Native create/open/edit/close project workflow, encrypted recent-project
+  catalog, opaque project folders, versioned outer manifests, and single-writer
+  leases.
+- Persisted tamper-evident audit events and profile/project integrity tests.
+- macOS disk-image packaging alongside the existing `.app` ZIP.
+
+### Safety boundary
+
+The cryptographic profile remains an engineering-preview format pending
+independent review, recovery/key-rotation design, and three-OS runtime evidence.
+The release does not calculate validated biological QC metrics and is not
+validated for diagnostic, clinical-decision, or regulated production use.
+
 ## 0.1.0-alpha.2 - 2026-08-27
 
 ### Added

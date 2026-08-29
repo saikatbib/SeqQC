@@ -21,13 +21,14 @@ macro_rules! schema {
 }
 
 /// All v1 contracts available to the native engine.
-pub const V1_SCHEMAS: [SchemaDocument; 8] = [
+pub const V1_SCHEMAS: [SchemaDocument; 9] = [
     schema!("artifact.schema.json"),
     schema!("common.schema.json"),
     schema!("completion-manifest.schema.json"),
     schema!("finding.schema.json"),
     schema!("metric.schema.json"),
     schema!("project.schema.json"),
+    schema!("project-manifest.schema.json"),
     schema!("report.schema.json"),
     schema!("workflow.schema.json"),
 ];
@@ -44,7 +45,7 @@ mod tests {
 
     #[test]
     fn embeds_the_complete_v1_registry() {
-        assert_eq!(V1_SCHEMAS.len(), 8);
+        assert_eq!(V1_SCHEMAS.len(), 9);
         assert!(v1_schema("report.schema.json").is_some());
         assert!(v1_schema("unknown.schema.json").is_none());
     }
