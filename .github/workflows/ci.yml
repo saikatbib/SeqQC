@@ -71,3 +71,60 @@ jobs:
           }
       - run: cargo fmt --all --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+
+  milestone-one-qualification:
+    name: M1 qualification (${{ matrix.os }})
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, macos-15, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Linux graphical and trace prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config perl xvfb libgl1-mesa-dri libegl1 libxkbcommon-dev strace
+      - name: Windows Perl prerequisite
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install strawberryperl --no-progress -y
+          'C:\Strawberry\perl\bin' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - run: cargo build --release --locked --package seqqc-native-desktop --features qualification
+      - run: cargo clippy --locked --package seqqc-native-desktop --all-targets --features qualification -- -D warnings
+      - name: Native screenshot matrix (Windows)
+        if: runner.os == 'Windows'
+        run: node tools/qualify-native.mjs --binary target/release/seqqc-native-desktop.exe --output target/qualification/visual
+      - name: Native screenshot matrix (macOS)
+        if: runner.os == 'macOS'
+        run: node tools/qualify-native.mjs --binary target/release/seqqc-native-desktop --output target/qualification/visual
+      - name: Native screenshot and syscall matrix (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a node tools/qualify-native.mjs --binary target/release/seqqc-native-desktop --output target/qualification/visual
+      - name: Sustained synthetic runtime observation
+        shell: pwsh
+        run: |
+          $env:SEQQC_QA_ROOT = Join-Path $env:RUNNER_TEMP "seqqc-runtime-$env:GITHUB_RUN_ID"
+          $env:SEQQC_QA_SCENE = 'inputs'
+          Remove-Item Env:SEQQC_QA_SCREENSHOT -ErrorAction SilentlyContinue
+          if ($IsWindows) {
+            & ./tools/observe-no-network-windows.ps1 -Executable ./target/release/seqqc-native-desktop.exe -Seconds 10
+          } elseif ($IsMacOS) {
+            bash ./tools/observe-no-network-macos.sh ./target/release/seqqc-native-desktop
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          } else {
+            xvfb-run -a bash ./tools/observe-no-network-linux.sh ./target/release/seqqc-native-desktop
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+      - name: Retain synthetic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m1-qualification-${{ matrix.os }}
+          path: target/qualification/visual
+          if-no-files-found: warn
+          retention-days: 14

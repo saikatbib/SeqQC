@@ -42,8 +42,10 @@ inside encrypted SQLCipher databases.
   unrecoverable.
 - Copying a `.seqqc` directory alone does not transfer its key. The separately
   reviewed encrypted portable-archive workflow is not implemented yet.
-- Crash-time stale-lock recovery is implemented in the core but is not yet
-  exposed as a guided UI recovery flow.
+- Blocked profiles and projects offer guided stale-lock recovery. Verify that
+  every instance using the folder has stopped, then explicitly request recovery.
+  The lease must be at least 15 minutes old; its evidence is preserved. Current
+  builds additionally refuse recovery while an OS writer lease is held.
 - Cryptographic formats and parameters remain engineering-preview material
   pending independent review. This release is not validated for diagnosis,
   clinical decisions, or regulated production use.

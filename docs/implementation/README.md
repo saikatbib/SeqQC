@@ -5,6 +5,8 @@ testable contracts, implementation slices, and retained architecture evidence.
 
 - [Milestone 0 blueprint](milestone-0-blueprint.md)
 - [Milestone 0 status](milestone-0-status.md)
+- [Milestone 1 app review and acceptance status](milestone-1-review.md)
+- [Milestone 1 qualification and independent review protocol](m1-qualification-protocol.md)
 - [Metric assignment summary](metric-assignment-summary.md)
 - [Windows native foundation evidence](evidence/m0-native-foundation-windows.md)
 - [Windows format/discovery evidence](evidence/m0-formats-discovery-windows.md)

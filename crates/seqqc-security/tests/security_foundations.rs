@@ -45,11 +45,21 @@ fn writer_lock_blocks_a_second_writer_and_preserves_stale_evidence() {
         Err(ProjectLockError::AlreadyLocked(_))
     ));
 
+    assert!(matches!(
+        ProjectWriterLock::recover_stale(&directory.0, Duration::ZERO),
+        Err(ProjectLockError::ActiveWriter)
+    ));
+    let evidence = fs::read(directory.0.join("lock/writer.lock")).expect("read lease evidence");
+    drop(first);
+    fs::write(directory.0.join("lock/writer.lock"), evidence).expect("simulate crash residue");
+    assert!(matches!(
+        ProjectWriterLock::recover_stale(&directory.0, Duration::from_mins(15)),
+        Err(ProjectLockError::NotStale)
+    ));
     let recovered = ProjectWriterLock::recover_stale(&directory.0, Duration::ZERO)
         .expect("explicitly recover lock");
     assert!(recovered.is_file());
     let replacement = ProjectWriterLock::acquire(&directory.0).expect("acquire replacement lock");
-    drop(first);
     assert!(directory.0.join("lock/writer.lock").is_file());
     drop(replacement);
     assert!(!directory.0.join("lock/writer.lock").exists());

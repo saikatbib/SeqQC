@@ -5094,6 +5094,7 @@ name = "seqqc-native-desktop"
 version = "0.1.0-alpha.3"
 dependencies = [
  "eframe",
+ "image",
  "rfd 0.17.2",
  "seqqc-discovery",
  "seqqc-engine",

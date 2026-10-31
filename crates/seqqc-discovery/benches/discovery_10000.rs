@@ -6,7 +6,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use seqqc_discovery::{GroupStatus, discover};
 
 const BATCH_COUNT: usize = 50;
-const SAMPLES_PER_BATCH: usize = 100;
+const SAMPLES_PER_BATCH: usize = 200;
 const EXPECTED_FILES: usize = BATCH_COUNT * SAMPLES_PER_BATCH * 2;
 
 fn main() -> io::Result<()> {

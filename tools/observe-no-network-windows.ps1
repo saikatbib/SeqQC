@@ -11,6 +11,7 @@ $resolvedExecutable = (Resolve-Path -LiteralPath $Executable -ErrorAction Stop).
 $process = Start-Process -FilePath $resolvedExecutable -WindowStyle Hidden -PassThru
 $observed = [System.Collections.Generic.List[string]]::new()
 $observedProcesses = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+$completedObservation = $false
 
 try {
     $deadline = [DateTimeOffset]::UtcNow.AddSeconds($Seconds)
@@ -47,6 +48,7 @@ try {
         }
         Start-Sleep -Milliseconds 100
     }
+    $completedObservation = [DateTimeOffset]::UtcNow -ge $deadline -and -not $process.HasExited
 }
 finally {
     if (-not $process.HasExited) {
@@ -61,6 +63,10 @@ if ($observed.Count -gt 0) {
 
 if ($observedProcesses.Count -eq 0) {
     throw 'Process-family observation returned no processes; the gate cannot pass.'
+}
+
+if (-not $completedObservation) {
+    throw 'SeqQC exited before the observation interval completed; the gate cannot pass.'
 }
 
 $processNames = [string[]]($observedProcesses | Sort-Object)

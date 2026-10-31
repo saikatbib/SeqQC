@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "review_date": "2026-10-31",
+  "scope": "Milestone 1: no external provider is authorized to execute or redistribute",
+  "external_execution_enabled": false,
+  "approved_artifacts": [],
+  "independent_reviewer": null,
+  "candidates": [
+    {
+      "id": "samtools-htslib",
+      "version_reviewed": "1.25",
+      "source": "https://github.com/samtools/samtools/releases/tag/1.25",
+      "license_source": "https://github.com/samtools/samtools/blob/1.25/LICENSE",
+      "artifact": "samtools-1.25.tar.bz2",
+      "upstream_reported_sha256": "8bbd2b3cb447953149a74ab0b00e3ec4e88a789a27b8373a31fa6b5b2dee02b1",
+      "digest_independently_verified": false,
+      "decision": "pending_independent_review",
+      "blockers": ["HTSlib remote transport must be excluded or proven unreachable", "Per-platform executable provenance and transitive license review", "Adapter and scientific equivalence validation", "Independent approval"]
+    },
+    {
+      "id": "fastp",
+      "version_reviewed": "v1.4.0",
+      "source": "https://github.com/OpenGene/fastp/releases/tag/v1.4.0",
+      "license_source": "https://github.com/OpenGene/fastp/blob/v1.4.0/LICENSE",
+      "artifact": null,
+      "upstream_reported_sha256": null,
+      "digest_independently_verified": false,
+      "decision": "pending_independent_review",
+      "blockers": ["Latest GitHub release exposes no attached binary assets", "Pin and reproduce an institutionally reviewed build", "Platform, license, offline and scientific validation", "Independent approval"]
+    },
+    {"id": "bwa-mem2", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["Milestone 5 Linux-only provider selection and validation"]},
+    {"id": "star", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["Milestone 5 Linux-only provider selection and validation"]},
+    {"id": "mosdepth", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["Artifact, license, scientific and platform review"]},
+    {"id": "picard", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["JVM closure, artifact, license, scientific and platform review"]},
+    {"id": "rnaseqc", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["Annotation assumptions, artifact, license, scientific and platform review"]},
+    {"id": "verifybamid2", "version_reviewed": null, "decision": "pending_independent_review", "blockers": ["Population resource permissions, artifact, license, scientific and platform review"]}
+  ]
+}

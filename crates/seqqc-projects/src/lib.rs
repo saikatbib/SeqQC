@@ -35,6 +35,16 @@ const OS_KEY_STORE_CRYPTO_PROFILE: &str = "seqqc-project-v1-os-key-store";
 const PROFILE_VAULT_CRYPTO_PROFILE: &str = "seqqc-project-v1-profile-key-vault";
 const MAX_RECENT_PROJECTS: usize = 12;
 
+/// Identifies a lease conflict for the guided recovery interface.
+#[must_use]
+pub const fn locked_process_id(error: &ProjectLockError) -> Option<u32> {
+    if let ProjectLockError::AlreadyLocked(evidence) = error {
+        Some(evidence.process_id)
+    } else {
+        None
+    }
+}
+
 /// Supported assay families for a `SeqQC` project.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub enum Assay {
@@ -228,6 +238,70 @@ pub struct ProjectWorkspace {
 }
 
 impl ProjectWorkspace {
+    /// Returns the last committed simulator state, including interrupted work.
+    pub fn simulation_state(&self) -> Result<String, ProjectError> {
+        let state = self
+            .store
+            .metadata("simulation_state")?
+            .unwrap_or_else(|| "idle".to_owned());
+        if matches!(
+            state.as_str(),
+            "idle" | "queued" | "running" | "completed" | "cancelled"
+        ) {
+            Ok(state)
+        } else {
+            Err(ProjectError::InvalidMetadata("simulation_state".to_owned()))
+        }
+    }
+
+    /// Commits a simulator transition and its audit event before presentation.
+    pub fn set_simulation_state(&mut self, state: &str) -> Result<(), ProjectError> {
+        if !matches!(
+            state,
+            "idle" | "queued" | "running" | "completed" | "cancelled"
+        ) {
+            return Err(ProjectError::InvalidRequest(
+                "Unknown simulation state".to_owned(),
+            ));
+        }
+        self.store
+            .set_metadata_batch(&[("simulation_state", state)])?;
+        self.record_event(&format!("simulation.{state}"), "success")?;
+        self.store.checkpoint()?;
+        Ok(())
+    }
+    /// Reads an optional resource path from encrypted project metadata.
+    pub fn resource_path(&self, key: &str) -> Result<Option<PathBuf>, ProjectError> {
+        validate_resource_key(key)?;
+        Ok(self
+            .store
+            .metadata(key)?
+            .filter(|value| !value.is_empty())
+            .map(PathBuf::from))
+    }
+
+    /// Stores the local reference registry inside the encrypted project.
+    pub fn set_resources(
+        &mut self,
+        resources: &[(&str, Option<&Path>)],
+    ) -> Result<(), ProjectError> {
+        for (key, _) in resources {
+            validate_resource_key(key)?;
+        }
+        let entries: Vec<_> = resources
+            .iter()
+            .map(|(key, path)| {
+                (
+                    *key,
+                    path.map_or_else(String::new, |path| path.to_string_lossy().into_owned()),
+                )
+            })
+            .collect();
+        self.store.set_metadata_batch(&entries)?;
+        self.record_event("project.resources_updated", "success")?;
+        self.store.checkpoint()?;
+        Ok(())
+    }
     #[must_use]
     pub fn summary(&self) -> &ProjectSummary {
         &self.summary
@@ -275,6 +349,19 @@ impl ProjectWorkspace {
             "",
         )?;
         Ok(())
+    }
+}
+
+fn validate_resource_key(key: &str) -> Result<(), ProjectError> {
+    if matches!(
+        key,
+        "reference_fasta" | "annotation_gtf_gff" | "targets_bed"
+    ) {
+        Ok(())
+    } else {
+        Err(ProjectError::InvalidRequest(
+            "Unknown reference registry key".to_owned(),
+        ))
     }
 }
 
@@ -1530,6 +1617,18 @@ mod tests {
         assert!(project.summary().directory.join("project.db").is_file());
 
         let project_directory = project.summary().directory.clone();
+        let reference = directory.0.join("private-reference.fa");
+        project
+            .set_simulation_state("running")
+            .expect("persist running task");
+        project
+            .set_resources(&[("reference_fasta", Some(reference.as_path()))])
+            .expect("store reference");
+        assert!(
+            project
+                .set_resources(&[("display_name", Some(reference.as_path()))])
+                .is_err()
+        );
         project
             .update_metadata(
                 "Renamed cohort",
@@ -1552,6 +1651,16 @@ mod tests {
         assert_eq!(reopened.summary().display_name, "Renamed cohort");
         assert_eq!(reopened.summary().assay, Assay::Wes);
         assert_eq!(reopened.summary().input_root, None);
+        assert_eq!(
+            reopened.simulation_state().expect("interrupted task state"),
+            "running"
+        );
+        assert_eq!(
+            reopened
+                .resource_path("reference_fasta")
+                .expect("read reference"),
+            Some(reference)
+        );
     }
 
     #[test]

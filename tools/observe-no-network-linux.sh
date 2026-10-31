@@ -6,7 +6,7 @@ trace_file="$(mktemp)"
 trap 'rm -f "$trace_file"' EXIT
 
 set +e
-timeout 10s strace -f -qq -e trace=network -o "$trace_file" "$executable"
+timeout 10s strace -f -qq -e trace=network,process -o "$trace_file" "$executable"
 status=$?
 set -e
 
@@ -15,9 +15,14 @@ if grep -E 'socket\(AF_INET6?|connect\([^,]+, \{sa_family=AF_INET6?' "$trace_fil
   exit 1
 fi
 
-if [[ $status -ne 0 && $status -ne 124 ]]; then
+if [[ $status -ne 124 ]]; then
   echo "SeqQC exited unexpectedly during no-network observation: $status" >&2
-  exit "$status"
+  exit 1
+fi
+
+if ! grep -q 'execve(' "$trace_file"; then
+  echo 'No traced process startup; observation cannot pass.' >&2
+  exit 1
 fi
 
 echo "No AF_INET or AF_INET6 socket operation was observed."

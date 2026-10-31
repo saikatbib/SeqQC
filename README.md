@@ -41,6 +41,11 @@ macOS and platform-signed packages are not included in this first prerelease.
   XChaCha20-Poly1305; the passphrase and unwrapped key are never written to disk.
 - Encrypted project create/open/edit/close, a protected recent-project catalog,
   explicit session lock, and a 15-minute inactivity lock.
+- Guided stale-lease recovery with active-writer protection; searchable sample
+  pages for 10,000-sample review and cooperative background-scan cancellation.
+- Encrypted local reference selections, background resource-readiness checks,
+  a path-free readiness report, and a persistent simulated workflow with
+  interrupted-task identification (no biological QC calculations).
 - No application telemetry, updater, remote assets, HTTP client, local browser
   server, or runtime download path in the native shell.
 - Recursive FASTQ/FQ/GZ, BAM, and CRAM discovery in nested folders and network
@@ -173,6 +178,8 @@ macOS and Linux runtime observation remains a release qualification item. The
 older WebView2 failure is retained as historical evidence. See the
 [Milestone 0 status](docs/implementation/milestone-0-status.md) and retained
 [Windows evidence](docs/implementation/evidence/m0-working-preview-windows.md).
+The current [Milestone 1 review](docs/implementation/milestone-1-review.md)
+records the foundation changes, local checks, and remaining acceptance gates.
 
 ## Contributing and security
 

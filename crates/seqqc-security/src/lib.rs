@@ -1,10 +1,12 @@
+#![cfg_attr(test, allow(linker_messages))]
+
 //! Encrypted local project storage for `SeqQC`.
 //!
 //! This crate owns the application-facing persistence boundary. `SQLCipher` and
 //! SQLite types do not cross that boundary.
 
 use std::fmt;
-use std::fs::{self, OpenOptions};
+use std::fs::{self, File, OpenOptions};
 use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
@@ -311,6 +313,7 @@ pub struct LockEvidence {
 
 /// Exclusive single-writer lease for one project directory.
 pub struct ProjectWriterLock {
+    _lease: File,
     path: PathBuf,
     evidence: LockEvidence,
 }
@@ -330,6 +333,7 @@ pub enum ProjectLockError {
     AlreadyLocked(LockEvidence),
     InvalidLock,
     NotStale,
+    ActiveWriter,
     Io(io::Error),
 }
 
@@ -345,6 +349,9 @@ impl fmt::Display for ProjectLockError {
             Self::NotStale => {
                 formatter.write_str("project writer lock is not old enough to recover")
             }
+            Self::ActiveWriter => formatter.write_str(
+                "an active writer still holds the operating-system lease; close it before recovery",
+            ),
             Self::Io(error) => write!(formatter, "project writer lock I/O error: {error}"),
         }
     }
@@ -369,6 +376,18 @@ impl ProjectWriterLock {
         let lock_directory = project_directory.as_ref().join("lock");
         fs::create_dir_all(&lock_directory)?;
         let path = lock_directory.join(LOCK_FILE_NAME);
+        let lease = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .create(true)
+            .truncate(false)
+            .open(lock_directory.join("writer.lease"))?;
+        if lease.try_lock().is_err() {
+            return match read_lock(&path) {
+                Ok(evidence) => Err(ProjectLockError::AlreadyLocked(evidence)),
+                Err(_) => Err(ProjectLockError::ActiveWriter),
+            };
+        }
         let mut token_bytes = [0_u8; 16];
         getrandom::fill(&mut token_bytes).map_err(|_| {
             ProjectLockError::Io(io::Error::other(
@@ -384,7 +403,11 @@ impl ProjectWriterLock {
             Ok(mut file) => {
                 write_lock(&mut file, &evidence)?;
                 file.sync_all()?;
-                Ok(Self { path, evidence })
+                Ok(Self {
+                    path,
+                    evidence,
+                    _lease: lease,
+                })
             }
             Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
                 Err(ProjectLockError::AlreadyLocked(read_lock(&path)?))
@@ -411,7 +434,17 @@ impl ProjectWriterLock {
         project_directory: impl AsRef<Path>,
         minimum_age: Duration,
     ) -> Result<PathBuf, ProjectLockError> {
-        let path = project_directory.as_ref().join("lock").join(LOCK_FILE_NAME);
+        let lock_directory = project_directory.as_ref().join("lock");
+        let lease = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .create(true)
+            .truncate(false)
+            .open(lock_directory.join("writer.lease"))?;
+        lease
+            .try_lock()
+            .map_err(|_| ProjectLockError::ActiveWriter)?;
+        let path = lock_directory.join(LOCK_FILE_NAME);
         let evidence = read_lock(&path)?;
         let age_millis = unix_millis().saturating_sub(evidence.created_unix_millis);
         if age_millis < minimum_age.as_millis() {
@@ -1198,4 +1231,67 @@ fn stored_audit_digest(
         hasher.update(value.as_bytes());
     }
     hex::encode(hasher.finalize())
+}
+
+#[cfg(test)]
+mod migration_tests {
+    use super::*;
+
+    #[test]
+    fn supported_migrations_preserve_metadata_and_future_versions_fail_closed() {
+        let directory = std::env::temp_dir().join(format!(
+            "seqqc-migrations-{}-{}",
+            std::process::id(),
+            unix_millis()
+        ));
+        fs::create_dir(&directory).expect("create fixture");
+        for version in [1, 2, 999] {
+            let path = directory.join(format!("v{version}.db"));
+            let mut store = EncryptedProjectStore::create(&path, "synthetic migration passphrase")
+                .expect("create fixture store");
+            store
+                .set_metadata_batch(&[("preserved", "synthetic project")])
+                .expect("save metadata");
+            if version <= 2 {
+                store
+                    .connection
+                    .execute_batch("DROP TABLE protected_keys;")
+                    .expect("prepare old key schema");
+            }
+            if version == 1 {
+                store
+                    .connection
+                    .execute_batch("DROP TABLE audit_events;")
+                    .expect("prepare old audit schema");
+            }
+            store
+                .connection
+                .execute(
+                    "UPDATE schema_information SET schema_version = ?1 WHERE singleton = 1",
+                    params![version],
+                )
+                .expect("set fixture version");
+            store.checkpoint().expect("flush fixture");
+            drop(store);
+            let reopened = EncryptedProjectStore::open(&path, "synthetic migration passphrase");
+            if version == 999 {
+                assert!(matches!(reopened, Err(StoreError::UnsupportedSchema(999))));
+            } else {
+                let mut reopened = reopened.expect("migrate supported schema");
+                assert_eq!(
+                    reopened.metadata("preserved").expect("read metadata"),
+                    Some("synthetic project".to_owned())
+                );
+                reopened
+                    .append_audit_event("fixture", "migration.checked", "success", "")
+                    .expect("audit table migrated");
+                let key = ProjectKey::generate().expect("generate key");
+                reopened
+                    .store_project_key("fixture", &key)
+                    .expect("key table migrated");
+                reopened.verify_integrity().expect("migrated integrity");
+            }
+        }
+        fs::remove_dir_all(directory).expect("remove fixture");
+    }
 }
