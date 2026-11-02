@@ -28,6 +28,16 @@ Endpoint polling cannot rule out short attempts between samples. These are
 runner-based engineering checks, not signed-installer, physical display/GPU,
 network-mount, or deployment qualification.
 
+Windows hosted runners expose only legacy OpenGL 1.1. Their visual test job
+therefore uses a checksum-pinned Mesa 26.2.5 MSVC software renderer, deployed only
+beside the disposable qualification executable. No system driver settings are
+changed and no Mesa binaries enter release packages. The artifact manifest
+records the archive and copied DLL hashes. The ordinary Windows workstation
+captures use the installed driver instead. This distinguishes software-renderer
+CI evidence from native GPU/deployment qualification. See the
+[Mesa LLVMpipe documentation](https://docs.mesa3d.org/drivers/llvmpipe.html) and
+[the pinned Windows distribution](https://github.com/pal1000/mesa-dist-win/releases/tag/26.2.5).
+
 ## Live accessibility and visual review
 
 Use a synthetic qualification binary without `SEQQC_QA_SCREENSHOT` to retain

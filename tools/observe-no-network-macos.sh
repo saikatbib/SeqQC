@@ -3,6 +3,7 @@
 set -euo pipefail
 executable="${1:?usage: observe-no-network-macos.sh <qualification executable>}"
 command -v lsof >/dev/null
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 trace_file="$(mktemp)"
 "$executable" >"$trace_file" 2>&1 &
 app_pid=$!
@@ -14,12 +15,8 @@ while [[ $SECONDS -lt $deadline ]]; do
     echo 'Application exited early; observation cannot pass.' >&2
     exit 1
   fi
-  ids=$(ps -axo pid=,ppid= | awk -v root="$app_pid" '
-    { parent[$1]=$2 } END {
-      seen[root]=1; changed=1;
-      while(changed) { changed=0; for(pid in parent) if(seen[parent[pid]] && !seen[pid]) {seen[pid]=1; changed=1} }
-      separator=""; for(pid in seen) {printf "%s%s",separator,pid; separator=","}
-    }')
+  ids=$(ps -axo pid=,ppid= | awk -v root="$app_pid" -f "$script_dir/process-family.awk" | paste -sd, -)
+  if [[ -z "$ids" ]]; then echo 'Empty process family; observation cannot pass.' >&2; exit 1; fi
   set +e
   endpoints=$(lsof -nP -a -p "$ids" -iTCP -iUDP 2>&1)
   status=$?

@@ -87,7 +87,10 @@ jobs:
           node-version: 24
       - name: Linux graphical and trace prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config perl xvfb libgl1-mesa-dri libegl1 libxkbcommon-dev strace
+        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config perl xvfb libgl1-mesa-dri libegl1 libxkbcommon-dev libxkbcommon-x11-dev libxcursor-dev libxrandr-dev libxi-dev strace
+      - name: Verify process-family attribution
+        if: runner.os != 'Windows'
+        run: bash tools/test-process-family.sh
       - name: Windows Perl prerequisite
         if: runner.os == 'Windows'
         shell: pwsh
@@ -96,6 +99,26 @@ jobs:
           'C:\Strawberry\perl\bin' | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - run: cargo build --release --locked --package seqqc-native-desktop --features qualification
       - run: cargo clippy --locked --package seqqc-native-desktop --all-targets --features qualification -- -D warnings
+      - name: Pinned Windows CI-only software OpenGL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'mesa3d-26.2.5-release-msvc.7z'
+          $mesaRoot = Join-Path $env:RUNNER_TEMP 'mesa3d-qualification'
+          $url = 'https://github.com/pal1000/mesa-dist-win/releases/download/26.2.5/mesa3d-26.2.5-release-msvc.7z'
+          $expected = '997123ef4ce8896204ab912d5b54f19372c487ff9835bcefafa2fca23b8953c2'
+          Invoke-WebRequest -Uri $url -OutFile $archive
+          $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw 'Mesa test-driver archive digest mismatch.' }
+          & 7z x $archive "-o$mesaRoot" -y
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path -LiteralPath (Join-Path $mesaRoot 'x64/opengl32.dll'))) { throw 'Missing test OpenGL library.' }
+          if (-not (Test-Path -LiteralPath (Join-Path $mesaRoot 'x64/libgallium_wgl.dll'))) { throw 'Missing test Gallium library.' }
+          Copy-Item -Path (Join-Path $mesaRoot 'x64/*.dll') -Destination target/release
+          'GALLIUM_DRIVER=llvmpipe' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          'LIBGL_ALWAYS_SOFTWARE=1' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          New-Item -ItemType Directory -Path target/qualification/visual -Force | Out-Null
+          @{ scope = 'CI-only software graphics; never packaged'; version = '26.2.5'; source = $url; archive_sha256 = $actual; libraries = @(Get-ChildItem -Path (Join-Path $mesaRoot 'x64/*.dll') | ForEach-Object { @{ name = $_.Name; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash } }) } | ConvertTo-Json -Depth 5 | Set-Content target/qualification/visual/test-driver.json
       - name: Native screenshot matrix (Windows)
         if: runner.os == 'Windows'
         run: node tools/qualify-native.mjs --binary target/release/seqqc-native-desktop.exe --output target/qualification/visual
