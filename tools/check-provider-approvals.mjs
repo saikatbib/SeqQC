@@ -11,6 +11,10 @@ export function validateProviderApprovals(document) {
     if (candidate.decision !== 'pending_independent_review' || !Array.isArray(candidate.blockers) || candidate.blockers.length === 0) throw new Error(`Provider approval is unsupported or lacks blockers: ${candidate.id}`);
     if (candidate.upstream_reported_sha256 != null && !/^[0-9a-f]{64}$/.test(candidate.upstream_reported_sha256)) throw new Error(`Invalid upstream digest: ${candidate.id}`);
     if (candidate.digest_independently_verified === true) throw new Error(`No independent artifact verification is recorded for ${candidate.id}`);
+    if (candidate.engineering_source_archive_verification) {
+      const verification = candidate.engineering_source_archive_verification;
+      if (verification.matches_upstream !== true || verification.sha256 !== candidate.upstream_reported_sha256) throw new Error(`Source archive verification mismatch: ${candidate.id}`);
+    }
   }
   if (expected.size) throw new Error(`Missing provider reviews: ${[...expected].join(', ')}`);
   return { approved: 0, pending: document.candidates.length };

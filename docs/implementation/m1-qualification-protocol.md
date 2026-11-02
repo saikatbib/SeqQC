@@ -104,7 +104,9 @@ The first technical dossier contains upstream records for
 [fastp v1.4.0](https://github.com/OpenGene/fastp/releases/tag/v1.4.0).
 SAMtools' upstream release API reports source-archive SHA-256
 `8bbd2b3cb447953149a74ab0b00e3ec4e88a789a27b8373a31fa6b5b2dee02b1`;
-this is not an independently computed executable digest. The fastp release API
+the downloaded source archive was rehashed locally on 2026-11-01 and matched.
+Its license inventory includes the main, bundled HTSlib, and LZ4 license files.
+This source check is not an executable digest or independent approval. The fastp release API
 lists no attached assets. Neither source record approves a platform binary.
 
 Review each proposed executable and its full runtime closure for exact version,

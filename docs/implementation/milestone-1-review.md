@@ -55,6 +55,11 @@ tests nor framebuffer images substitute for representative-user testing.
 
 ## Follow-up qualification
 
+The [2026-11-01 engineering evidence](evidence/m1-qualification-2026-11-01.md)
+records a passing seven-job CI run, 126 native platform captures, live Windows
+keyboard checks, and the independently recomputed source-archive hash. Human
+review and deployment qualification remain separate acceptance gates.
+
 The [qualification protocol](m1-qualification-protocol.md) and CI matrix now
 cover synthetic rendered scenes in all themes at 100%/200% scale and runtime
 network observation on Windows, macOS, and Linux. The qualification feature is

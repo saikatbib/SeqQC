@@ -14,6 +14,13 @@
       "artifact": "samtools-1.25.tar.bz2",
       "upstream_reported_sha256": "8bbd2b3cb447953149a74ab0b00e3ec4e88a789a27b8373a31fa6b5b2dee02b1",
       "digest_independently_verified": false,
+      "engineering_source_archive_verification": {
+        "date": "2026-11-01",
+        "sha256": "8bbd2b3cb447953149a74ab0b00e3ec4e88a789a27b8373a31fa6b5b2dee02b1",
+        "matches_upstream": true,
+        "scope": "Downloaded source archive only; not an executable or independent reviewer approval",
+        "license_inventory": ["LICENSE", "htslib-1.25/LICENSE", "lz4/LICENSE"]
+      },
       "decision": "pending_independent_review",
       "blockers": ["HTSlib remote transport must be excluded or proven unreachable", "Per-platform executable provenance and transitive license review", "Adapter and scientific equivalence validation", "Independent approval"]
     },

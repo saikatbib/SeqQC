@@ -15,3 +15,9 @@ test('provider gate requires complete candidate coverage and explicit pending de
   altered.candidates[0].decision = 'approved';
   assert.throws(() => validateProviderApprovals(altered));
 });
+test('source-archive verification must match upstream and cannot approve execution', () => {
+  const altered = structuredClone(baseline);
+  altered.candidates[0].engineering_source_archive_verification.sha256 = '0'.repeat(64);
+  assert.throws(() => validateProviderApprovals(altered));
+  assert.equal(validateProviderApprovals(baseline).approved, 0);
+});
